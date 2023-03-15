@@ -4,7 +4,7 @@ return {
     require("smartcolumn").setup({
       colorcolumn = 80,
       disabled_filetypes = { "help", "text", "markdown" },
-      custom_colorcolumn = { rust = 120, cpp = 100 },
+      custom_colorcolumn = { rust = "120", cpp = "100" , gitcommit = { "50", "80"} },
       limit_to_window = true,
       limit_to_line = false,
     })
