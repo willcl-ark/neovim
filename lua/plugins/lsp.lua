@@ -139,31 +139,9 @@ return {
   {
     -- Formatting and linting
     "jose-elias-alvarez/null-ls.nvim",
-    lazy = true,
+    -- lazy = true,
+    event = { "BufReadPre", "BufNewFile" },
     config = function()
-      local bufnr = vim.api.nvim_get_current_buf()
-
-      -- Function to select only formatters from Null-ls and avoid conflicts from the LSP
-      local lsp_formatting = function(buf)
-        vim.lsp.buf.format({
-          filter = function(client)
-            return client.name == "null-ls"
-          end,
-          bufnr = buf,
-        })
-      end
-
-      -- Create a command `:Format` local to the LSP buffer
-      vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-        if vim.lsp.buf.format then
-          lsp_formatting(bufnr)
-        elseif vim.lsp.buf.formatting then
-          vim.lsp.buf.formatting()
-        end
-      end, { desc = "Format current buffer with null-ls formatter" })
-
-      -- Format buffer using LSP format
-      vim.keymap.set("n", "<leader>df", ":Format<CR>", { buffer = bufnr, desc = "[D]o [F]ormat" })
       local null_ls = require("null-ls")
       local sources = {
         null_ls.builtins.code_actions.shellcheck,
@@ -191,7 +169,7 @@ return {
             "html",
             "json",
             "jsonc",
-            "yaml",
+            -- "yaml",
             -- "markdown",
             "markdown.mdx",
             "graphql",
@@ -203,9 +181,36 @@ return {
           extra_filetypes = { "bash" },
         }),
         null_ls.builtins.formatting.stylua,
+        null_ls.builtins.formatting.yamlfmt,
       }
+      local on_attach = function(_, bufnr)
+        -- only use formatters from null-ls
+        local lsp_formatting = function(buf)
+          vim.lsp.buf.format({
+            bufnr = buf,
+            filter = function(client)
+              return client.name == "null-ls"
+            end,
+          })
+        end
 
-      null_ls.setup({ sources = sources })
+        -- Create a command `:Format` local to the LSP buffer
+        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
+          if vim.lsp.buf.format then
+            lsp_formatting(bufnr)
+          elseif vim.lsp.buf.formatting then
+            vim.lsp.buf.formatting()
+          end
+        end, { desc = "Format current buffer with null-ls formatter" })
+        -- Format buffer using LSP format
+        vim.keymap.set("n", "<leader>df", ":Format<CR>", { buffer = bufnr, desc = "[D]o [F]ormat" })
+      end
+
+      null_ls.setup({
+        debug = false,
+        sources = sources,
+        on_attach = on_attach,
+      })
     end,
   },
 }
