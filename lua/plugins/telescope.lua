@@ -49,11 +49,21 @@ return {
           },
         },
         defaults = {
-          layout_strategy = "flex", -- Horizontal if enough room, otherwise vertical
+          layout_strategy = "flex", -- Dynamic switch between horiz and vert
           layout_config = {
-            height = 0.99,
-            width = 0.99,
-            prompt_position = "bottom",
+            flex = {
+              height = 0.95,
+              width = 0.95,
+              prompt_position = "bottom",
+              flip_columns = 160, -- horizontal if term wider than 160 cols
+              horizontal = {
+                preview_width = 0.50,
+              },
+              vertical = {
+                prompt_position = "bottom",
+                preview_cutoff = 50,
+              },
+            },
           },
           vimgrep_arguments = {
             "rg",
@@ -67,7 +77,7 @@ return {
           },
           prompt_prefix = " ",
           selection_caret = " ",
-          path_display = { shorten = 3 },
+          path_display = { truncate = 5 },
           extensions = {
             fzf = {
               fuzzy = true, -- false will only do exact matching
@@ -132,16 +142,9 @@ return {
       })
     end,
     keys = {
-      -- stylua: ignore start
       { "<leader>?", "<cmd>Telescope oldfiles<cr>", desc = "[?] Find recently opened files" },
       { "<leader><leader>", "<cmd>Telescope buffers<cr>", desc = "[ ] Find existing buffers" },
-      {
-        "<leader>sf",
-        function()
-          require("telescope.builtin").find_files({ layout_config = { horizontal = { preview_width = 0.75 } } })
-        end,
-        desc = "[S]earch [F]iles",
-      },
+      { "<leader>sf", "<cmd>Telescope find_files<cr>", desc = "[S]earch [F]iles" },
       { "<leader>sw", "<cmd>Telescope grep_string<cr>", desc = "[S]earch [W]ord" },
       { "<leader>sg", "<cmd>Telescope live_grep<cr>", desc = "[S]earch by [G]rep" },
       { "<leader>sh", "<cmd>Telescope help_tags<cr>", desc = "[S]earch [H]elp" },
@@ -160,7 +163,6 @@ return {
       },
       { "<leader>sd", "<cmd>Telescope diagnostics<cr>", desc = "[S]earch [D]iagnostics" },
       { "<leader>sr", "<cmd>Telescope resume<cr>", desc = "[S]earch [R]esume" },
-      -- stylua: ignore end
     },
   },
 }
