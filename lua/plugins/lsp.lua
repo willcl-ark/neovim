@@ -145,17 +145,22 @@ return {
       local null_ls = require("null-ls")
       local sources = {
         null_ls.builtins.code_actions.shellcheck,
-        null_ls.builtins.diagnostics.flake8,
+        null_ls.builtins.diagnostics.ruff.with({
+          extra_args = {
+            "--ignore E501", -- ignore line-too-long
+            -- "--line-length 88",  -- same as black
+          },
+        }),
+        null_ls.builtins.formatting.ruff,
         null_ls.builtins.diagnostics.gitlint,
         null_ls.builtins.diagnostics.shellcheck,
-        null_ls.builtins.formatting.black.with({
-          extra_args = { "--line-length=120" },
-        }),
+        -- null_ls.builtins.formatting.black.with({
+        --   extra_args = { "--line-length=120" },
+        -- }),
         null_ls.builtins.formatting.clang_format.with({
           filetypes = { "cpp", "hpp", "c", "h" },
         }),
         null_ls.builtins.formatting.fish_indent,
-        null_ls.builtins.formatting.isort,
         null_ls.builtins.formatting.prettier.with({
           filetypes = {
             "javascript",
