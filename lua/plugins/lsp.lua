@@ -92,6 +92,7 @@ return {
         end,
       })
       -- If the server is not installed by Mason, set it up manually
+
       -- hack to silence clangd multiple offset encodings warnings
       local clangd_capabilities = require("cmp_nvim_lsp").default_capabilities()
       clangd_capabilities.offsetEncoding = "utf-8"
@@ -100,6 +101,21 @@ return {
         on_attach = on_attach,
         capabilities = clangd_capabilities,
         cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" },
+      })
+
+      lspconfig.pyright.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+
+      lspconfig.gopls.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
+      })
+
+      lspconfig.cmake.setup({
+        on_attach = on_attach,
+        capabilities = capabilities,
       })
 
       -- rust-tools sets up rust-analyzer for us
@@ -125,7 +141,7 @@ return {
     config = function()
       -- Enable the following language servers and have Mason install them automagically if missing
       -- Install others onto system path manually. This helps us use tools at same version as compiler
-      local servers = { "pyright", "lua_ls", "gopls", "cmake" }
+      local servers = { "lua_ls" }
       require("mason-lspconfig").setup({ ensure_installed = servers })
     end,
   },
