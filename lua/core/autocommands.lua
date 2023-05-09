@@ -23,11 +23,6 @@ autocmd("FileType", {
   command = "nnoremap <silent> <buffer> q :close<CR>",
   group = general,
 })
-autocmd("BufWinEnter", {
-  pattern = "*",
-  command = "set formatoptions-=cro",
-  group = general,
-})
 
 -- Highlight
 local highlight = augroup("TextYankPost", { clear = true })
