@@ -23,7 +23,7 @@ return {
         "typescript",
         "vim",
         "yaml",
-        "help",
+        "vimdoc",
       },
       highlight = { enable = true },
       -- indent = { enable = true }, Seems to break auto indentation for now?
