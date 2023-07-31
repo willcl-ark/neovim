@@ -83,5 +83,9 @@ return {
 
     -- use bear to Make
     opt.makeprg = "bear -- make -j16"
+
+    -- Load cfilter by default
+    vim.cmd [[packadd cfilter]]
+
   end,
 }
