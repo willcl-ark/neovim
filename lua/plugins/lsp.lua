@@ -7,6 +7,7 @@ return {
       "j-hui/fidget.nvim",
       "jose-elias-alvarez/null-ls.nvim",
       "simrat39/rust-tools.nvim",
+      "p00f/clangd_extensions.nvim",
     },
     event = { "BufReadPre", "BufNewFile" },
     config = function()
@@ -126,6 +127,14 @@ return {
           cmd = {
             "rust-analyzer",
           },
+        },
+      })
+
+      -- Inlay hints (and more) for cpp
+      require("clangd_extensions").setup({
+        server = {
+          on_attach = on_attach,
+          capabilities = capabilities,
         },
       })
     end,
