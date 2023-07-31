@@ -160,6 +160,7 @@ return {
     -- Turn on lsp status information (bottom right)
     lazy = true,
     config = true,
+    tag = "legacy",
   },
   {
     -- Formatting and linting
