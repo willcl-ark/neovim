@@ -224,7 +224,10 @@ return {
         null_ls.builtins.formatting.yamlfmt,
       }
       local on_attach = function(_, bufnr)
-        -- only use formatters from null-ls
+        -- disable formatexpr for gq https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
+        vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
+
+        -- only use formatters from null-ls for Format cmd
         local lsp_formatting = function(buf)
           vim.lsp.buf.format({
             bufnr = buf,
