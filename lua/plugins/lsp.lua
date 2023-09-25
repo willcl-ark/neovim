@@ -98,10 +98,33 @@ return {
       local clangd_capabilities = require("cmp_nvim_lsp").default_capabilities()
       clangd_capabilities.offsetEncoding = "utf-8"
 
+      local function get_compile_commands_dir()
+        local root_dir = vim.fn.getcwd()
+
+        -- check build/debug/ and then build/ for compile_commands.json in that order
+        local dirs = { root_dir .. "/build/debug", root_dir .. "/build" }
+        for _, dir in ipairs(dirs) do
+          local cc_path = dir .. "/compile_commands.json"
+          if vim.fn.filereadable(cc_path) == 1 then
+            return dir
+          end
+        end
+        return nil -- fallback to clangd's default behavior
+      end
+
+      local function get_clangd_cmd()
+        local clangd_cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" }
+        local cc_dir = get_compile_commands_dir()
+        if cc_dir then
+          table.insert(clangd_cmd, "--compile-commands-dir=" .. cc_dir)
+        end
+        return clangd_cmd
+      end
+
       lspconfig.clangd.setup({
         on_attach = on_attach,
         capabilities = clangd_capabilities,
-        cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" },
+        cmd = get_clangd_cmd(), -- generate the cmd value with appropriate compile_commands
       })
 
       lspconfig.pyright.setup({
