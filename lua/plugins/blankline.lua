@@ -2,6 +2,7 @@ return {
   "lukas-reineke/indent-blankline.nvim", -- Add indentation guides even on blank lines
   -- See `:help indent_blankline.txt`
   event = { "BufReadPost", "BufNewFile" },
+  tag = "v2.20.8",
   config = function()
     vim.opt.list = true
     vim.cmd([[highlight IndentBlanklineIndent1 guifg=#f38ba8 gui=nocombine]])
