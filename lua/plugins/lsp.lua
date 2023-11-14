@@ -4,7 +4,7 @@ return {
     dependencies = {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
-      "j-hui/fidget.nvim",
+      "fidget", -- setup using lua/plugins/fidget.lua
       "nvimtools/none-ls.nvim",
       "simrat39/rust-tools.nvim",
       "p00f/clangd_extensions.nvim",
@@ -176,14 +176,6 @@ return {
       local servers = { "lua_ls" }
       require("mason-lspconfig").setup({ ensure_installed = servers })
     end,
-  },
-  {
-    -- Useful status updates for LSP
-    "j-hui/fidget.nvim",
-    -- Turn on lsp status information (bottom right)
-    lazy = true,
-    config = true,
-    tag = "legacy",
   },
   {
     -- Formatting and linting
