@@ -16,6 +16,9 @@ return {
       vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
       vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
       vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+      -- TODO: can we check if enabled and have a toggle?
+      vim.keymap.set("n", "<leader>d", vim.diagnostic.disable)
+      vim.keymap.set("n", "<leader>de", vim.diagnostic.enable)
 
       --  This function gets run when an LSP connects to a particular buffer.
       local on_attach = function(_, bufnr)
@@ -178,7 +181,7 @@ return {
     end,
   },
   {
-    -- Formatting and linting
+    -- Extra code_actions and diagnostics
     "jose-elias-alvarez/null-ls.nvim",
     -- lazy = true,
     event = { "BufReadPre", "BufNewFile" },
@@ -195,80 +198,12 @@ return {
             -- "--line-length 88",  -- same as black
           },
         }),
-        null_ls.builtins.formatting.yapf.with({
-          condition = function(utils) -- Use yapf formatter for Bitcoin Core
-            return utils.root_matches("bitcoin") ~= nil
-          end,
-        }),
-        null_ls.builtins.formatting.ruff.with({
-          condition = function(utils) -- Don't use ruff formatter with Bitcoin Core
-            return utils.root_matches("bitcoin") == nil
-          end,
-        }),
-        -- null_ls.builtins.formatting.black.with({
-        --   extra_args = { "--line-length=120" },
-        -- }),
-        null_ls.builtins.formatting.clang_format.with({
-          filetypes = { "cpp", "hpp", "c", "h" },
-        }),
-        null_ls.builtins.formatting.fish_indent,
-        null_ls.builtins.formatting.prettier.with({
-          filetypes = {
-            "javascript",
-            "javascriptreact",
-            "typescript",
-            "typescriptreact",
-            "vue",
-            "css",
-            "scss",
-            "less",
-            "html",
-            "json",
-            "jsonc",
-            -- "yaml",
-            -- "markdown",
-            "markdown.mdx",
-            "graphql",
-            "handlebars",
-          },
-        }),
-        null_ls.builtins.formatting.rustfmt,
-        null_ls.builtins.formatting.shfmt.with({
-          extra_filetypes = { "bash" },
-        }),
-        null_ls.builtins.formatting.stylua,
-        null_ls.builtins.formatting.yamlfmt,
       }
-      local on_attach = function(_, bufnr)
-        -- disable formatexpr for gq https://github.com/jose-elias-alvarez/null-ls.nvim/issues/1131
-        vim.api.nvim_buf_set_option(bufnr, "formatexpr", "")
-
-        -- only use formatters from null-ls for Format cmd
-        local lsp_formatting = function(buf)
-          vim.lsp.buf.format({
-            bufnr = buf,
-            filter = function(client)
-              return client.name == "null-ls"
-            end,
-          })
-        end
-
-        -- Create a command `:Format` local to the LSP buffer
-        vim.api.nvim_buf_create_user_command(bufnr, "Format", function(_)
-          if vim.lsp.buf.format then
-            lsp_formatting(bufnr)
-          elseif vim.lsp.buf.formatting then
-            vim.lsp.buf.formatting()
-          end
-        end, { desc = "Format current buffer with null-ls formatter" })
-        -- Format buffer using LSP format
-        vim.keymap.set("n", "<leader>df", ":Format<CR>", { buffer = bufnr, desc = "[D]o [F]ormat" })
-      end
 
       null_ls.setup({
         debug = false,
         sources = sources,
-        on_attach = on_attach,
+        -- on_attach = on_attach,
       })
     end,
   },
