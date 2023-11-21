@@ -5,7 +5,6 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "fidget", -- setup using lua/plugins/fidget.lua
-      "nvimtools/none-ls.nvim",
       "simrat39/rust-tools.nvim",
       "p00f/clangd_extensions.nvim",
     },
@@ -182,7 +181,7 @@ return {
   },
   {
     -- Extra code_actions and diagnostics
-    "jose-elias-alvarez/null-ls.nvim",
+    "nvimtools/none-ls.nvim",
     -- lazy = true,
     event = { "BufReadPre", "BufNewFile" },
     config = function()
