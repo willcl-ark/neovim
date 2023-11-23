@@ -1,6 +1,5 @@
 return {
   "https://git.sr.ht/~whynothugo/lsp_lines.nvim",
-  event = { "BufRead", "BufNewFile" },
   config = function()
     require("lsp_lines").setup({
       vim.diagnostic.config({ virtual_text = true }),
@@ -13,4 +12,6 @@ return {
 
     vim.keymap.set("", "<Leader>l", ToggleLspLines, { desc = "[L]sp_lines toggle" })
   end,
+  lazy = true,
+  name = "lsp_lines",
 }

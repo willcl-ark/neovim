@@ -5,6 +5,7 @@ return {
       "williamboman/mason.nvim",
       "williamboman/mason-lspconfig.nvim",
       "fidget", -- setup using lua/plugins/fidget.lua
+      "lsp_lines",
       "simrat39/rust-tools.nvim",
       "p00f/clangd_extensions.nvim",
     },
