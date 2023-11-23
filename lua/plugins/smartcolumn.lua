@@ -1,5 +1,6 @@
 return {
   "m4xshen/smartcolumn.nvim",
+  enabled = false, -- This bogs down nvim on large files
   config = function()
     require("smartcolumn").setup({
       colorcolumn = 80,
