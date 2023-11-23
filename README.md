@@ -7,15 +7,15 @@
 
 ### General
 
-The following should be available on `$PATH`.
-Some of the language-specific tools can be installed via Mason (with `:Mason`), but are often best if found on `$PATH` as then the tool version being used will match the version of the compiler.
+The following should be available to Neovim (on `$PATH`) for LSP functionality.
+Some of the language-specific tools can be installed via Mason (with `:Mason`), but are often best if found on `$PATH` as then the tool will directly match the compiler version.
 
 - Neovim >= 0.8.0
 - a Nerd Font (for glyphs)
 - a terminal with true colour (kitty, alacritty, iTerm2 etc.)
 - `git`
 - `ripgrep`
-- `fd`-find
+- [`fd`-find](https://github.com/sharkdp/fd)
 
 ### C++
 
@@ -30,7 +30,7 @@ Some of the language-specific tools can be installed via Mason (with `:Mason`), 
 ### Python
 
 - `pyright`
-- `ruff` [optional]
+- [`ruff`](https://github.com/astral-sh/ruff)
 - `yapf` [optional]
 
 ### Go
@@ -40,6 +40,7 @@ Some of the language-specific tools can be installed via Mason (with `:Mason`), 
 ### Misc
 
 - `shellcheck`
+- `shfmt`
 - `gitlint`
 
 ## Setup
