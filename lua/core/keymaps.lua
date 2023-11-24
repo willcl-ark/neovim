@@ -30,6 +30,9 @@ return {
     -- Center after linejump
     map("n", "G", "Gzz")
 
+    -- Make U opposite to u.
+    map("n", "U", "<C-r>", { desc = "Redo" })
+
     -- Move highlighted lines with ctrl+k/j
     map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move highlighted lines down" })
     map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move hightligted lines up" })
