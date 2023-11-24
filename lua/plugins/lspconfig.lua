@@ -88,6 +88,10 @@ return {
         capabilities = capabilities(),
       })
 
+      lspconfig.zls.setup({
+        capabilities = capabilities(),
+      })
+
       lspconfig.cmake.setup({
         capabilities = capabilities(),
       })

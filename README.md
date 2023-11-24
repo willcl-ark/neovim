@@ -8,13 +8,13 @@
 ### General
 
 The following should be available to Neovim (on `$PATH`) for LSP functionality.
-Some of the language-specific tools can be installed via Mason (with `:Mason`), but are often best if found on `$PATH` as then the tool will directly match the compiler version.
+Some of the language-specific tools can be installed via Mason (with `:Mason`), but are often best if found on `$PATH`, as then the tool will directly match the compiler version.
 
 - Neovim >= 0.8.0
 - a Nerd Font (for glyphs)
 - a terminal with true colour (kitty, alacritty, iTerm2 etc.)
 - `git`
-- `ripgrep`
+- [`ripgrep`](https://github.com/BurntSushi/ripgrep)
 - [`fd`-find](https://github.com/sharkdp/fd)
 
 ### C++
@@ -36,6 +36,10 @@ Some of the language-specific tools can be installed via Mason (with `:Mason`), 
 ### Go
 
 - `gopls`
+
+### Zig
+
+- [`zls`](https://github.com/zigtools/zls)
 
 ### Misc
 
@@ -73,7 +77,7 @@ rm -rf ~/.config/nvim/.git
   - python3 venv and install `pynvim` package
   - python2 venv and install `pynvim` package [optional]
 
-- Export env vars `NVIM_PYTHON3` and optinoally `NVIM_PYTHON` to point to the python environment(s) for neovim, e.g.:
+- Export env vars `NVIM_PYTHON3` and optionally `NVIM_PYTHON` to point to the python environment(s) for neovim, e.g.:
 
 e.g.:
 
@@ -98,18 +102,21 @@ Filter by `space` (our "leader" key) to see most-useful bindings.
 Bindings for unloaded plugins will _not_ be shown (e.g. LSP bindings when an LSP is not attached to the buffer)
 `<esc>` to quit.
 
-You must compile CPP programs using `Bear` to generate a compile_commands.json for LSP purposes. See `Bear`'s documentation on how to do this, and consider setting an alias. It is possible to have `Bear`, `ccache` and your compile work all-together :)
+### C++
+
+You must compile C++ programs using `Bear` to generate a compile_commands.json for the LSP. See `Bear`'s documentation on how to do this, and consider setting an alias. It _is_ possible to have `Bear`, `ccache` and your compiler work together :)
 
 ### Handy bindings
 
-- Hover over function: `<C-k>` to show signature.
-- `<space><space>` open buffer list with fuzzy finder.
-- `<space>sf` [S]earch [F]iles from root with fuzzy finder.
-- `<space>sg` [S]earch [G]rep (strings) from root with fuzzy finder.
-- `<space>ss` [S]earch [S]rc (strings) from root/src directory with fuzzy finder.
-- `<space>sb` [S]earch [B]uffer search current buffer for string.
-- `<space>gd` [G]o [D]efinition will jump to function definition. `<C-o>` to jump back through the jumplist.
-- `<space>gi` [G]o [I]mplementation will jump to function implementation. `<C-o>` to jump back through the jumplist.
-- `<space>?`  Recently opened file picker.
-- `<space>l`  Will expand LSP warnings to virtual lines below the text to make them more readable. Release `<space>` and repeat sequence to toggle.
+- Hover over function: `<S-K>` to show signature.
+- `<space><space>`                  open buffer list with fuzzy finder.
+- `<space>sf` [S]earch [F]iles      from root with fuzzy finder.
+- `<space>sg` [S]earch [G]rep       (strings) from root with fuzzy finder.
+- `<space>ss` [S]earch [S]rc        (strings) from root `src` directory with fuzzy finder.
+- `<space>sb` [S]earch [B]uffer     search current buffer for string.
+- `<space>gd` [G]o [D]efinition     jump to function definition. `<C-o>` to jump back through the jumplist.
+- `<space>gD` [G]o [D]eclaration    jump to function definition. `<C-o>` to jump back through the jumplist.
+- `<space>gi` [G]o [I]mplementation jump to function implementation. `<C-o>` to jump back through the jumplist.
+- `<space>?`                        Recently opened file picker.
+- `<space>l`                        Expand LSP warnings to virtual lines below the text to make them more readable. Release `<space>` and repeat sequence to toggle.
 
