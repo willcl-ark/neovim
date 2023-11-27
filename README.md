@@ -1,7 +1,7 @@
 # Neovim config
 
 - 🚀 Blazingly fast
-- 💤 Uses lazy.nvim
+- 💤 Uses [lazy.nvim](https://github.com/folke/lazy.nvim)
 
 ## Requirements
 
@@ -11,7 +11,7 @@ The following should be available to Neovim (on `$PATH`) for LSP functionality.
 Some of the language-specific tools can be installed via Mason (with `:Mason`), but are often best if found on `$PATH`, as then the tool will directly match the compiler version.
 
 - Neovim >= 0.8.0
-- a Nerd Font (for glyphs)
+- a [Nerd Font](https://www.nerdfonts.com/) for glyphs (optional)
 - a terminal with true colour (kitty, alacritty, iTerm2 etc.)
 - `git`
 - [`ripgrep`](https://github.com/BurntSushi/ripgrep)
@@ -19,23 +19,23 @@ Some of the language-specific tools can be installed via Mason (with `:Mason`), 
 
 ### C++
 
-- `clangd`
-- `cmake`
-- [`Bear`](https://github.com/rizsotto/Bear) (optional but required for CPP LSP if not using `cmake`)
+- [`clangd`](https://clangd.llvm.org/)
+- [`cmake`](https://cmake.org/)
+- [`Bear`](https://github.com/rizsotto/Bear) (optional but required for C++ LSP if not using `cmake` to output a `compile_commands.json` file)
 
 ### Rust
 
-- `rust_analyzer`
+- [`rust_analyzer`](https://rust-analyzer.github.io/manual.html)
 
 ### Python
 
-- `pyright`
+- [`pyright`](https://github.com/microsoft/pyright)
 - [`ruff`](https://github.com/astral-sh/ruff)
-- `yapf` [optional]
+- [`yapf`](https://github.com/google/yapf) (optional)
 
 ### Go
 
-- `gopls`
+- [`gopls`](https://pkg.go.dev/golang.org/x/tools/gopls)
 
 ### Zig
 
@@ -43,9 +43,9 @@ Some of the language-specific tools can be installed via Mason (with `:Mason`), 
 
 ### Misc
 
-- `shellcheck`
-- `shfmt`
-- `gitlint`
+- [`shellcheck`](https://www.shellcheck.net/)
+- [`shfmt`](https://github.com/mvdan/sh)
+- [`gitlint`](https://jorisroovers.com/gitlint/latest/)
 
 ## Setup
 
@@ -67,7 +67,7 @@ mv ~/.cache/nvim ~/.cache/nvim.bak
 git clone https://github.com/willcl-ark/neovim ~/.config/nvim
 ```
 
-- (Optional) remove the .git folder, so you can add it to your own repo later:
+- (optional) remove the .git folder, so you can add it to your own repo later:
 
 ```bash
 rm -rf ~/.config/nvim/.git
@@ -82,6 +82,7 @@ rm -rf ~/.config/nvim/.git
 e.g.:
 
 ```fish
+# fish shell syntax
 set -gx NVIM_PYTHON $HOME/.pyenv/versions/neovim2/bin/python
 set -gx NVIM_PYTHON3 $HOME/.pyenv/versions/neovim3/bin/python
 ```
@@ -94,7 +95,7 @@ set -gx NVIM_PYTHON3 $HOME/.pyenv/versions/neovim3/bin/python
 `q` to quit.
 
 `:Mason` will open the LSP server manager which can be used to install LSP servers, DAP, Formatters and Linters from within neovim.
-Default config will install LSPs found in `~/.config/nvim/lua/plugins/lsp.lua`, e.g.: `local servers = { "lua_ls" }` and will look for `clangd`, `rust_analyzer` and others on `$PATH`.
+Default config will install LSPs found in `~/.config/nvim/lua/plugins/lsp.lua`, e.g.: `local servers = { "lua_ls" }`, and will look for `clangd`, `rust_analyzer` and others on `$PATH`.
 `q` to quit.
 
 `<space> sk` will open a Telescope search with (most) key bindings.
