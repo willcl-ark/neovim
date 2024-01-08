@@ -13,6 +13,7 @@ return {
         "bash",
         "c",
         "cpp",
+        "dockerfile",
         "fish",
         "go",
         "html",
