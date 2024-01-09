@@ -19,24 +19,13 @@ return {
       c = { "clang_format" },
       cpp = { "clang_format" },
       fish = { "fish_indent" },
-      go = { "gofmt" },
       lua = { "stylua" },
-      python = function(bufnr)
-        if require("conform").get_formatter_info("ruff_format", bufnr).available then
-          return { "ruff_format" }
-        else
-          return { "isort", "black" }
-        end
-      end,
-      rust = { "rustfmt" },
       sh = { "shfmt", "shellcheck" },
       yaml = { "yamlfmt" },
       -- Use the "_" filetype to run formatters on filetypes that don't
       -- have other formatters configured.
       ["_"] = { "trim_whitespace" },
     },
-    -- Set up format-on-save
-    -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
     -- Customize formatters
     formatters = {
       shfmt = {

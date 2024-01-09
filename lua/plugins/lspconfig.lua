@@ -50,7 +50,7 @@ return {
 
       -- hack to silence clangd multiple offset encodings warnings
       local clangd_capabilities = require("cmp_nvim_lsp").default_capabilities()
-      clangd_capabilities.offsetEncoding = "utf-8"
+      clangd_capabilities.offsetencoding = "utf-16"
 
       local function get_compile_commands_dir()
         local root_dir = vim.fn.getcwd()
@@ -67,7 +67,15 @@ return {
       end
 
       local function get_clangd_cmd()
-        local clangd_cmd = { "clangd", "--background-index", "--clang-tidy", "--header-insertion=iwyu" }
+        local clangd_cmd = {
+            "clangd",
+            "--background-index",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+          }
         local cc_dir = get_compile_commands_dir()
         if cc_dir then
           table.insert(clangd_cmd, "--compile-commands-dir=" .. cc_dir)
@@ -80,28 +88,10 @@ return {
         cmd = get_clangd_cmd(), -- generate the cmd value with appropriate compile_commands
       })
 
-      lspconfig.pyright.setup({
-        capabilities = capabilities(),
-      })
-
-      lspconfig.gopls.setup({
-        capabilities = capabilities(),
-      })
-
       lspconfig.zls.setup({
         capabilities = capabilities(),
       })
 
-      lspconfig.cmake.setup({
-        capabilities = capabilities(),
-      })
-
-      -- Inlay hints (and more) for cpp
-      require("clangd_extensions").setup({
-        server = {
-          capabilities = capabilities(),
-        },
-      })
     end,
   },
   {

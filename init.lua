@@ -5,7 +5,12 @@ require("bootstrap").run()
 require("core.keymaps").setup()
 
 -- Setup plugins using Lazy
-require("lazy").setup("plugins")
+require("lazy").setup({
+  spec = {
+    { import = "plugins" },
+    { import = "plugins.langs" },
+  }
+})
 
 require("core.options").setup()
 
