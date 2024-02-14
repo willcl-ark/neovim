@@ -91,25 +91,11 @@ return {
                 cmd = get_clangd_cmd(), -- generate the cmd value with appropriate compile_commands
             })
 
-            lspconfig.pyright.setup({
-                capabilities = capabilities(),
-            })
-
-            lspconfig.gopls.setup({
-                capabilities = capabilities(),
-            })
-
-            lspconfig.zls.setup({
-                capabilities = capabilities(),
-            })
-
-            lspconfig.ruff_lsp.setup({
-                capabilities = capabilities(),
-            })
-
-            lspconfig.cmake.setup({
-                capabilities = capabilities(),
-            })
+            lspconfig.cmake.setup({ capabilities = capabilities()})
+            lspconfig.gopls.setup({ capabilities = capabilities()})
+            lspconfig.pyright.setup({ capabilities = capabilities()})
+            lspconfig.ruff_lsp.setup({ capabilities = capabilities()})
+            lspconfig.zls.setup({ capabilities = capabilities()})
 
 
             -- Inlay hints (and more) for cpp
