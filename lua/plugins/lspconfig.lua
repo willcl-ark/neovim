@@ -97,7 +97,6 @@ return {
             lspconfig.ruff_lsp.setup({ capabilities = capabilities()})
             lspconfig.zls.setup({ capabilities = capabilities()})
 
-
             -- Inlay hints (and more) for cpp
             require("clangd_extensions").setup({
                 server = {

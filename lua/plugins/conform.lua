@@ -1,6 +1,7 @@
 return {
   "stevearc/conform.nvim",
   cmd = { "ConformInfo" },
+  event = "BufEnter",
   keys = {
     {
       "<leader>f",
@@ -29,7 +30,7 @@ return {
           return { "isort", "black" }
         end
       end,
-      rust = { "rustfmt" },
+      rust = { "rustfmt --edition 2021" },
       sh = { "shfmt", "shellcheck" },
       yaml = { "yamlfmt" },
       -- Use the "_" filetype to run formatters on filetypes that don't
@@ -37,7 +38,14 @@ return {
       ["_"] = { "trim_whitespace" },
     },
     -- Set up format-on-save
-    -- format_on_save = { timeout_ms = 500, lsp_fallback = true },
+      format_on_save = function(bufnr)
+        -- Only autoformat on certain filetypes
+        local filetypes = { "rust" }
+        if not vim.tbl_contains(filetypes, vim.bo[bufnr].filetype) then
+          return
+        end
+        return { timeout_ms = 500, lsp_fallback = true }
+      end,
     -- Customize formatters
     formatters = {
       shfmt = {
