@@ -1,0 +1,3 @@
+return {
+    "cstrahan/vim-capnp",
+}
