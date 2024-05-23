@@ -45,13 +45,13 @@ return {
                         },
                     })
                 end,
-                ["ruff_lsp"] = function()
+                ["ruff"] = function()
                     local ruff_on_attach = function(client, _)
                         -- Disable hover in favor of Pyright
                         client.server_capabilities.hoverProvider = false
                     end
 
-                    lspconfig.ruff_lsp.setup({
+                    lspconfig.ruff.setup({
                         on_attach = ruff_on_attach,
                         capabilities = capabilities(),
                     })
@@ -91,11 +91,25 @@ return {
                 cmd = get_clangd_cmd(), -- generate the cmd value with appropriate compile_commands
             })
 
-            lspconfig.cmake.setup({ capabilities = capabilities()})
-            lspconfig.gopls.setup({ capabilities = capabilities()})
-            lspconfig.pyright.setup({ capabilities = capabilities()})
-            lspconfig.ruff_lsp.setup({ capabilities = capabilities()})
-            lspconfig.zls.setup({ capabilities = capabilities()})
+            lspconfig.cmake.setup({ capabilities = capabilities() })
+            lspconfig.gopls.setup({ capabilities = capabilities() })
+            lspconfig.pyright.setup({
+                capabilities = capabilities(),
+                settings = {
+                    pyright = {
+                        -- Using Ruff's import organizer
+                        disableOrganizeImports = true,
+                    },
+                    python = {
+                        analysis = {
+                            -- Ignore all files for analysis to exclusively use Ruff for linting
+                            ignore = { '*' },
+                        },
+                    },
+                },
+            })
+            lspconfig.ruff.setup({ capabilities = capabilities() })
+            lspconfig.zls.setup({ capabilities = capabilities() })
 
             -- Inlay hints (and more) for cpp
             require("clangd_extensions").setup({
