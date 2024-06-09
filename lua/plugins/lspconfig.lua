@@ -109,6 +109,7 @@ return {
                 },
             })
             lspconfig.ruff.setup({ capabilities = capabilities() })
+            lspconfig.typos_lsp.setup({ capabilities = capabilities() })
             lspconfig.zls.setup({ capabilities = capabilities() })
 
             -- Inlay hints (and more) for cpp
@@ -130,7 +131,7 @@ return {
         config = function()
             -- Enable the following language servers and have Mason install them automagically if missing
             -- Install others onto system path manually. This helps us use tools at same version as compiler
-            local servers = { "lua_ls" }
+            local servers = { "lua_ls", "typos_lsp" }
             require("mason-lspconfig").setup({ ensure_installed = servers })
         end,
     },
