@@ -67,3 +67,10 @@ autocmd("FileType", {
   command = "setlocal wrap spell spelllang=en_gb",
   group = markdown,
 })
+
+local yaml = augroup("yaml", { clear = true })
+autocmd("FileType", {
+  pattern = "yaml",
+  command = "setlocal wrap spell spelllang=en_gb",
+  group = yaml,
+})

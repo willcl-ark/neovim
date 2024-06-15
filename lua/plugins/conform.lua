@@ -23,7 +23,7 @@ return {
       go = { "gofmt" },
       lua = { "stylua" },
       markdown = { "mdformat" },
-      python = { "ruff format" },
+      python = { "ruff_format" },
       rust = { "rustfmt --edition 2021" },
       sh = { "shfmt", "shellcheck" },
       yaml = { "yamlfmt" },
