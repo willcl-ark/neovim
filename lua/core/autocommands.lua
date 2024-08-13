@@ -24,6 +24,12 @@ autocmd("FileType", {
   group = general,
 })
 
+autocmd("FileType", {
+  pattern = "gitrebase",
+  command = "nnoremap <buffer> <C-e> :%s/pick/edit<CR>",
+  group = general,
+})
+
 -- Highlight
 local highlight = augroup("TextYankPost", { clear = true })
 autocmd("TextYankPost", {
