@@ -46,6 +46,7 @@
   "vim-asciidoctor": { "branch": "master", "commit": "f553311b5db03440eb8d7035434d0405e4a2c559" },
   "vim-capnp": { "branch": "master", "commit": "954202e2c6c1cb9185082de8ddb7f2823a9d1206" },
   "vim-carbon-now-sh": { "branch": "master", "commit": "31a18d26fc27e7bd5786da092ed886273b4cf639" },
+  "vim-easy-align": { "branch": "master", "commit": "9815a55dbcd817784458df7a18acacc6f82b1241" },
   "vim-fugitive": { "branch": "master", "commit": "0444df68cd1cdabc7453d6bd84099458327e5513" },
   "vim-just": { "branch": "main", "commit": "b6952c89dde3687202cd397db37dc96344a444e0" },
   "vim-sleuth": { "branch": "master", "commit": "1cc4557420f215d02c4d2645a748a816c220e99b" }
