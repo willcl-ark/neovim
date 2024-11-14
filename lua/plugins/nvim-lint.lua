@@ -8,14 +8,12 @@ return {
                 cpp = { "clangtidy" },
                 fish = { "shellcheck", "fish" },
                 go = { "codespell", "golangcilint" },
-                html = { "htmlhint", "tidy" },
+                html = { "tidy" },
                 javascript = { "eslint_d" },
                 json = { "jsonlint" },
                 lua = { "luacheck" },
                 make = { "checkmake" },
-                markdown = { "alex", "markdownlint" },
-                -- Handled by Ruff LSP
-                -- python = { "ruff" },
+                -- markdown = { "alex", "markdownlint" },
                 rust = { "clippy" },
                 sh = { "shellcheck" },
             }
