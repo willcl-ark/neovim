@@ -91,5 +91,26 @@ return {
         opt.breakindent = true
         opt.linebreak = true
         opt.breakindentopt = 'list:-1'
+
+        -- Set directories for swap, backup, and undo files
+        local data_dir = vim.fn.stdpath('data')
+        opt.directory = data_dir .. '/swap//'
+        opt.backupdir = data_dir .. '/backup//'
+        opt.undodir = data_dir .. '/undo//'
+
+        -- Enable backup and undo options
+        opt.backup = true
+        opt.undofile = true
+
+        -- Create directories if they don't exist
+        local function ensure_dir(dir)
+            if vim.fn.isdirectory(dir) == 0 then
+                vim.fn.mkdir(dir, "p")
+            end
+        end
+
+        ensure_dir(opt.directory:get()[1])
+        ensure_dir(opt.backupdir:get()[1])
+        ensure_dir(opt.undodir:get()[1])
     end,
 }
