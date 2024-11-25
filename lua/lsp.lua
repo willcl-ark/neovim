@@ -63,19 +63,6 @@ local function on_attach(client, bufnr)
   end, "[W]orkspace [L]ist Folders")
 end -- END function() on_attach
 
--- Override the virtual text diagnostic handler so that the most severe diagnostic is shown first.
-local show_handler = vim.diagnostic.handlers.virtual_text.show
-local hide_handler = vim.diagnostic.handlers.virtual_text.hide
-vim.diagnostic.handlers.virtual_text = {
-  show = function(ns, bufnr, diagnostics, opts)
-    table.sort(diagnostics, function(diag1, diag2)
-      return diag1.severity > diag2.severity
-    end)
-    return show_handler(ns, bufnr, diagnostics, opts)
-  end,
-  hide = hide_handler,
-}
-
 -- Update mappings when registering dynamic capabilities.
 -- Use the string "client/registerCapability" directly
 local register_capability_key = "client/registerCapability"
