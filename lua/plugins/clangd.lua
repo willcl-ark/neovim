@@ -12,7 +12,8 @@ return {
 
   {
     "p00f/clangd_extensions.nvim",
-    lazy = true,
+    -- lazy = true,
+    event = { "BufReadPre *.cpp", "BufNewFile *.cpp" },
     config = function() end,
     opts = {
       inlay_hints = {
