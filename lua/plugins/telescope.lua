@@ -6,8 +6,8 @@ return {
             "nvim-lua/plenary.nvim",
             {
                 -- Fuzzy Finder Algorithm which requires local dependencies to be built. Only load if `make` is available
-                "nvim-telescope/telescope-fzf-native.nvim",
-                build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+                'nvim-telescope/telescope-fzf-native.nvim',
+                build = 'make',
                 config = function()
                     require("telescope").load_extension("fzf")
                 end,

@@ -5,12 +5,13 @@ return {
             "williamboman/mason.nvim",
             "williamboman/mason-lspconfig.nvim",
             "fidget", -- setup using lua/plugins/fidget.lua
-            "lsp_lines",
         },
         event = { "BufReadPre", "BufNewFile" },
         config = function()
             local lspconfig = require("lspconfig")
             local capabilities = require("lsp").client_capabilities
+            vim.lsp.set_log_level('info')
+
 
             require("mason-lspconfig").setup_handlers({
                 -- The first entry (without a key) will be the default handler
@@ -22,42 +23,23 @@ return {
                     })
                 end,
                 -- Handler overrides for specific LSPs
-                ["lua_ls"] = function()
-                    -- Make runtime files discoverable to the server
-                    local runtime_path = vim.split(package.path, ";")
-                    table.insert(runtime_path, "lua/?.lua")
-                    table.insert(runtime_path, "lua/?/init.lua")
-
-                    lspconfig.lua_ls.setup({
-                        capabilities = capabilities(),
-                        settings = {
-                            Lua = {
-                                runtime = {
-                                    version = "LuaJIT",
-                                    path = runtime_path,
-                                },
-                                diagnostics = {
-                                    globals = { "vim" },
-                                },
-                                workspace = { library = vim.api.nvim_get_runtime_file("", true), checkThirdParty = false },
-                                telemetry = { enable = false },
-                            },
-                        },
-                    })
-                end,
                 ["ruff"] = function()
                     local ruff_on_attach = function(client, _)
                         -- Disable hover in favor of Pyright
                         client.server_capabilities.hoverProvider = false
                     end
-
-                    lspconfig.ruff.setup({
+                    lspconfig.ruff.setup {
                         on_attach = ruff_on_attach,
                         capabilities = capabilities(),
-                    })
+                        trace = 'messages',
+                        init_options = {
+                            settings = {
+                                logLevel = 'debug',
+                            }
+                        }
+                    }
                 end,
             })
-            -- If the server is not installed by Mason, set it up manually
 
             -- hack to silence clangd multiple offset encodings warnings
             local clangd_capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -93,7 +75,8 @@ return {
 
             lspconfig.cmake.setup({ capabilities = capabilities() })
             lspconfig.gopls.setup({ capabilities = capabilities() })
-            lspconfig.nil_ls.setup{}
+            lspconfig.lua_ls.setup({ capabilities = capabilities() })
+            lspconfig.nil_ls.setup {}
             lspconfig.pyright.setup({
                 capabilities = capabilities(),
                 settings = {
@@ -131,7 +114,7 @@ return {
         config = function()
             -- Enable the following language servers and have Mason install them automagically if missing
             -- Install others onto system path manually. This helps us use tools at same version as compiler
-            local servers = { "lua_ls" }
+            local servers = { }
             require("mason-lspconfig").setup({ ensure_installed = servers })
         end,
     },

@@ -24,6 +24,24 @@ return {
                 "--format='{{.LineNumber}}:{{.Rule}}:{{.Violation}}\n'",
                 "--config", os.getenv("HOME") .. "/.config/checkmake.ini",
             }
+            -- handle vim gloabls using luacheck
+            lint.linters.luacheck = {
+                name = "luacheck",
+                cmd = "luacheck",
+                stdin = true,
+                args = {
+                    "--globals",
+                    "vim",
+                    "lvim",
+                    "reload",
+                    "--",
+                },
+                stream = "stdout",
+                ignore_exitcode = true,
+                parser = require("lint.parser").from_errorformat("%f:%l:%c: %m", {
+                    source = "luacheck",
+                }),
+            }
 
             -- NOTE: custom logic for handling YAML linting
             -- to parse out when we are in a github action
