@@ -32,14 +32,14 @@ return {
       ["_"] = { "trim_whitespace" },
     },
     -- Set up format-on-save
-      format_on_save = function(bufnr)
-        -- Only autoformat on certain filetypes
-        local filetypes = { "rust" }
-        if not vim.tbl_contains(filetypes, vim.bo[bufnr].filetype) then
-          return
-        end
-        return { timeout_ms = 500, lsp_fallback = true }
-      end,
+    format_on_save = function(bufnr)
+      -- Only autoformat on certain filetypes
+      local filetypes = { "rust" }
+      if not vim.tbl_contains(filetypes, vim.bo[bufnr].filetype) then
+        return
+      end
+      return { timeout_ms = 500, lsp_fallback = true }
+    end,
     -- Customize formatters
     formatters = {
       shfmt = {
