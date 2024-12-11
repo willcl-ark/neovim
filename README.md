@@ -7,8 +7,7 @@
 
 ### General
 
-The following should be available to Neovim (on `$PATH`) for LSP functionality.
-Some of the language-specific tools can be installed via Mason (with `:Mason`), but are often best if found on `$PATH`, as then the tool will directly match the compiler version.
+The following should be available to Neovim (on `$PATH`) for LSP/telescope to function properly:
 
 - Neovim >= 0.8.0
 - a [Nerd Font](https://www.nerdfonts.com/) for glyphs (optional)
@@ -16,6 +15,11 @@ Some of the language-specific tools can be installed via Mason (with `:Mason`), 
 - `git`
 - [`ripgrep`](https://github.com/BurntSushi/ripgrep)
 - [`fd`-find](https://github.com/sharkdp/fd)
+
+There are some language-specific tools which are searched for on `$PATH` and installed automatically  by mason-lspconfig if they are not found there.
+Tools can be installed directly via Mason (with `:Mason`), but it's generally preferable to use a tool found on `$PATH` as then the tool will directly match versions with what the user will use in the terminal.
+
+Starting `nvim` and running `:checkhealth` will detail what is missing.
 
 ### C++
 
@@ -46,6 +50,7 @@ Some of the language-specific tools can be installed via Mason (with `:Mason`), 
 - [`shellcheck`](https://www.shellcheck.net/)
 - [`shfmt`](https://github.com/mvdan/sh)
 - [`gitlint`](https://jorisroovers.com/gitlint/latest/)
+- [`stylua`](https://github.com/JohnnyMorganz/StyLua)
 
 ## Setup
 
@@ -103,21 +108,27 @@ Filter by `space` (our "leader" key) to see most-useful bindings.
 Bindings for unloaded plugins will _not_ be shown (e.g. LSP bindings when an LSP is not attached to the buffer)
 `<esc>` to quit.
 
+`<space>aa` will ask Claude about the file. If in visual mode only the visual selection will be sent as context. See avante.nvim for more details.
+
 ### C++
 
-You must compile C++ programs using `Bear` to generate a compile_commands.json for the LSP. See `Bear`'s documentation on how to do this, and consider setting an alias. It _is_ possible to have `Bear`, `ccache` and your compiler work together :)
+You must compile C++ programs using `cmake` or `Bear` to generate a compile_commands.json for the clangd LS to use.
 
 ### Handy bindings
 
 - Hover over function: `<S-K>` to show signature.
-- `<space><space>`                  open buffer list with fuzzy finder.
-- `<space>sf` [S]earch [F]iles      from root with fuzzy finder.
-- `<space>sg` [S]earch [G]rep       (strings) from root with fuzzy finder.
-- `<space>ss` [S]earch [S]rc        (strings) from root `src` directory with fuzzy finder.
-- `<space>sb` [S]earch [B]uffer     search current buffer for string.
-- `<space>gd` [G]o [D]efinition     jump to function definition. `<C-o>` to jump back through the jumplist.
-- `<space>gD` [G]o [D]eclaration    jump to function definition. `<C-o>` to jump back through the jumplist.
-- `<space>gi` [G]o [I]mplementation jump to function implementation. `<C-o>` to jump back through the jumplist.
-- `<space>?`                        Recently opened file picker.
-- `<space>l`                        Expand LSP warnings to virtual lines below the text to make them more readable. Release `<space>` and repeat sequence to toggle.
+- `<space><space>`                         open current buffer list with fuzzy finder.
+- `<space>sf` [S]earch [F]iles             from root with fuzzy finder.
+- `<space>sg` [S]earch [G]rep              (strings) from root with fuzzy finder.
+- `<space>ss` [S]earch [S]rc               (strings) from root `src` directory with fuzzy finder.
+- `<space>sb` [S]earch [B]uffer            search current buffer for string.
+- `<space>sd` [S]earch [D]iagnostics       search project diagnostics.
+- `<space>sw` [S]earch [W]orkspace symbols search symbols in current workspace.
+- `<space>gd` [G]o to  [D]efinition        jump to function definition. `<C-o>` to jump back through the jumplist.
+- `<space>gD` [G]o to  [D]eclaration       jump to function definition. `<C-o>` to jump back through the jumplist.
+- `<space>gi` [G]o to  [I]mplementation    jump to function implementation. `<C-o>` to jump back through the jumplist.
+- `<space>?`                               Recently opened ("oldfiles") file picker.
+- `<space>z`                               Zen mode toggle
+- `<space>ud`                              Diagnostics toggle
+- `<space>uw`                              Word wrap toggle
 
