@@ -152,10 +152,14 @@ return {
       -- Only include servers  for install that aren't already in $PATH
       local servers_to_install = {}
       for server, binary in pairs(server_binaries) do
+        if binary == "nil" then
+          goto continue
+        end
         if not command_exists(binary) then
           table.insert(servers_to_install, server)
           vim.notify("Will install " .. server .. " via Mason (not found in PATH)", vim.log.levels.INFO)
         end
+        ::continue::
       end
 
       require("mason-lspconfig").setup({
