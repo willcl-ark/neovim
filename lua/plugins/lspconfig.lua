@@ -10,7 +10,7 @@ return {
     config = function()
       local lspconfig = require("lspconfig")
       local capabilities = require("lsp").client_capabilities
-      vim.lsp.set_log_level("info")
+      -- vim.lsp.set_log_level("info")
 
       require("mason-lspconfig").setup_handlers({
         -- The first entry (without a key) will be the default handler
