@@ -1,82 +1,108 @@
-local autocmd = vim.api.nvim_create_autocmd
-local augroup = vim.api.nvim_create_augroup
+local M = {}
 
-local asciidoctor = augroup("asciidoctor", { clear = true })
-autocmd("FileType", {
-  pattern = "asciidoctor",
-  command = "setlocal spell spelllang=en_gb wrap colorcolumn= linebreak",
-  group = asciidoctor,
-})
+function M.setup()
+  local function create_augroup(name)
+    return vim.api.nvim_create_augroup(name, { clear = true })
+  end
 
--- Autoresize
-local autoresize = augroup("autoresize", { clear = true })
-autocmd("VimResized", {
-  pattern = "*",
-  command = "tabdo wincmd =",
-  group = autoresize,
-})
+  -- File type specific settings
+  local filetype = create_augroup("filetype_settings")
+  vim.api.nvim_create_autocmd("FileType", {
+    group = filetype,
+    pattern = "help,man,lspinfo",
+    callback = function()
+      vim.keymap.set("n", "q", "<cmd>close<CR>", { buffer = true, silent = true })
+    end,
+  })
 
--- General
-local general = augroup("general", { clear = true })
-autocmd("FileType", {
-  pattern = "help,man,lspinfo",
-  command = "nnoremap <silent> <buffer> q :close<CR>",
-  group = general,
-})
+  vim.api.nvim_create_autocmd("FileType", {
+    group = filetype,
+    pattern = "gitcommit",
+    callback = function()
+      vim.opt_local.textwidth = 72
+      vim.opt_local.colorcolumn = "72,50"
+      vim.opt_local.wrap = true
+    end,
+  })
 
-autocmd("FileType", {
-  pattern = "gitrebase",
-  command = "nnoremap <buffer> <C-e> :%s/pick/edit<CR>",
-  group = general,
-})
+  vim.api.nvim_create_autocmd("FileType", {
+    group = filetype,
+    pattern = "gitrebase",
+    callback = function()
+      vim.keymap.set("n", "<C-e>", ":%s/pick/edit<CR>", { buffer = true })
+    end,
+  })
 
--- Highlight
-local highlight = augroup("TextYankPost", { clear = true })
-autocmd("TextYankPost", {
-  pattern = "*",
-  callback = function()
-    vim.highlight.on_yank({ higroup = "Search", timeout = 500 })
-  end,
-  group = highlight,
-})
+  vim.api.nvim_create_autocmd("FileType", {
+    group = filetype,
+    pattern = { "markdown", "yaml" },
+    callback = function()
+      vim.opt_local.wrap = true
+      vim.opt_local.spell = true
+      vim.opt_local.spelllang = "en_gb"
+    end,
+  })
 
--- Git
-local git = augroup("git", { clear = true })
-autocmd("FileType", {
-  pattern = "gitcommit",
-  command = "setlocal textwidth=72 colorcolumn=72 colorcolumn+=50 wrap",
-  group = git,
-})
-autocmd("BufRead", {
-  pattern = "*.orig",
-  command = "setlocal readonly",
-  group = git,
-})
+  vim.api.nvim_create_autocmd("FileType", {
+    group = filetype,
+    pattern = "asciidoctor",
+    callback = function()
+      vim.opt_local.spell = true
+      vim.opt_local.spelllang = "en_gb"
+      vim.opt_local.wrap = true
+      vim.opt_local.colorcolumn = ""
+      vim.opt_local.linebreak = true
+    end,
+  })
 
--- Mail
-local mail = augroup("mail", { clear = true })
-autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = "/tmp/mutt/*",
-  command = "setfiletype mail",
-  group = mail,
-})
-autocmd("FileType", {
-  pattern = "mail",
-  command = "setlocal spell spelllang=en_gb textwidth=72 fo+=w",
-  group = mail,
-})
+  -- Mail settings
+  local mail = create_augroup("mail_settings")
+  vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+    group = mail,
+    pattern = "/tmp/mutt/*",
+    callback = function()
+      vim.opt_local.filetype = "mail"
+    end,
+  })
 
--- Markdown
-local markdown = augroup("markdown", { clear = true })
-autocmd("FileType", {
-  pattern = "markdown",
-  command = "setlocal wrap spell spelllang=en_gb",
-  group = markdown,
-})
+  vim.api.nvim_create_autocmd("FileType", {
+    group = mail,
+    pattern = "mail",
+    callback = function()
+      vim.opt_local.spell = true
+      vim.opt_local.spelllang = "en_gb"
+      vim.opt_local.textwidth = 72
+      vim.opt_local.formatoptions:append("w")
+    end,
+  })
 
-local yaml = augroup("yaml", { clear = true })
-autocmd("FileType", {
-  pattern = "yaml",
-  command = "setlocal wrap spell spelllang=en_gb",
-  group = yaml,
-})
+  -- Window management
+  local window = create_augroup("window_management")
+  vim.api.nvim_create_autocmd("VimResized", {
+    group = window,
+    pattern = "*",
+    command = "tabdo wincmd =",
+  })
+
+  -- Highlighting
+  local highlight = create_augroup("highlight_settings")
+  vim.api.nvim_create_autocmd("TextYankPost", {
+    group = highlight,
+    pattern = "*",
+    callback = function()
+      vim.highlight.on_yank({ higroup = "Search", timeout = 500 })
+    end,
+  })
+
+  -- Git settings
+  local git = create_augroup("git_settings")
+  vim.api.nvim_create_autocmd("BufRead", {
+    group = git,
+    pattern = "*.orig",
+    callback = function()
+      vim.opt_local.readonly = true
+    end,
+  })
+end
+
+return M

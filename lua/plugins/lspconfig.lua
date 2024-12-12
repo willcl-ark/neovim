@@ -58,7 +58,7 @@ return {
   {
     "williamboman/mason-lspconfig.nvim",
     lazy = true,
-    config = function()
+    opts = function()
       local server_binaries = {
         clangd = "clangd",
         cmake = "cmake-language-server",
@@ -88,10 +88,10 @@ return {
         end
       end
 
-      require("mason-lspconfig").setup({
+      return {
         ensure_installed = servers_to_install,
         automatic_installation = false,
-      })
+      }
     end,
   },
 }

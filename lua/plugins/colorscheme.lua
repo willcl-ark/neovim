@@ -1,58 +1,50 @@
-function SetupColorScheme()
-  vim.cmd.colorscheme("gruvbox-material")
-end
-
-return {
+local M = {
   {
     "catppuccin/nvim",
     name = "catppuccin",
     cmd = "Telescope colorscheme",
-    config = function()
-      require("catppuccin").setup({
-        integrations = {
-          telescope = true,
-          mason = true,
-          cmp = true,
-          treesitter = true,
-        },
-      })
-    end,
+    opts = {
+      integrations = {
+        telescope = true,
+        mason = true,
+        cmp = true,
+        treesitter = true,
+      },
+    },
   },
   {
     "navarasu/onedark.nvim",
     cmd = "Telescope colorscheme",
+    opts = {
+      style = "dark",
+      toggle_style_key = "<leader>ts",
+      toggle_style_list = { "dark", "darker", "cool", "deep", "warm", "warmer", "light" },
+      transparent = false,
+      term_colors = true,
+      ending_tildes = false,
+      code_style = {
+        comments = "italic",
+        keywords = "none",
+        functions = "none",
+        strings = "none",
+        variables = "none",
+      },
+      diagnostics = {
+        darker = true,
+        undercurl = true,
+        background = true,
+      },
+    },
+  },
+  {
+    "sainnhe/gruvbox-material",
+    priority = 1000,
+    lazy = false, -- Load immediately
     config = function()
-      require("onedark").setup({
-        default_config = {
-          -- Main options --
-          style = "dark", -- choose between 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer' and 'light'
-          toggle_style_key = "<leader>ts",
-          toggle_style_list = { "dark", "darker", "cool", "deep", "warm", "warmer", "light" },
-          transparent = false, -- don't set background
-          term_colors = true, -- if true enable the terminal
-          ending_tildes = false, -- show the end-of-buffer tildes
-
-          -- Changing Formats --
-          code_style = {
-            comments = "italic",
-            keywords = "none",
-            functions = "none",
-            strings = "none",
-            variables = "none",
-          },
-
-          -- Custom Highlights --
-          colors = {}, -- Override default colors
-          highlights = {}, -- Override highlight groups
-
-          -- Plugins Related --
-          diagnostics = {
-            darker = true, -- darker colors for diagnostic
-            undercurl = true, -- use undercurl for diagnostics
-            background = true, -- use background color for virtual text
-          },
-        },
-      })
+      vim.g.gruvbox_material_background = "medium"
+      vim.g.gruvbox_material_diagnostic_virtual_text = "colored"
+      vim.g.gruvbox_material_better_performance = 1
+      vim.cmd([[colorscheme gruvbox-material]])
     end,
   },
   {
@@ -63,16 +55,11 @@ return {
     "lunarvim/synthwave84.nvim",
     cmd = "Telescope colorscheme",
   },
-  {
-    "sainnhe/gruvbox-material",
-    priority = 1000,
-    config = function()
-      -- Available values: 'hard', 'medium'(default), 'soft'
-      vim.g.gruvbox_material_background = "medium"
-      -- Color virtual text
-      vim.g.gruvbox_material_diagnostic_virtual_text = "colored"
-      vim.g.gruvbox_material_better_performance = 1
-      vim.cmd([[colorscheme gruvbox-material]])
-    end,
-  },
 }
+
+-- Setup function that can be called from options.lua
+function M.setup_colorscheme()
+  vim.cmd([[colorscheme gruvbox-material]])
+end
+
+return M

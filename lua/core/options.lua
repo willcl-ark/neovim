@@ -50,8 +50,7 @@ return {
 
         -- Set colorscheme
         opt.termguicolors = true
-        require("plugins.colorscheme")
-        SetupColorScheme()
+        require("plugins.colorscheme").setup_colorscheme()
 
         -- Show `` in markdown files
         opt.conceallevel = 0

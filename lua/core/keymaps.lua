@@ -1,58 +1,54 @@
-return {
-  setup = function()
-    -- Set <space> as the leader key
-    -- See `:help mapleader`
-    --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
-    vim.g.mapleader = " "
-    vim.g.maplocalleader = " "
+local M = {}
 
-    local function map(mode, lhs, rhs, opts)
-      opts = opts or {}
-      opts.silent = opts.silent ~= false
-      vim.keymap.set(mode, lhs, rhs, opts)
-    end
+function M.setup()
+  -- Helper function for setting keymaps
+  local function map(mode, lhs, rhs, opts)
+    -- Initialize opts if not provided
+    opts = opts or {}
+    opts = vim.tbl_extend("force", {
+      silent = true,
+      desc = opts.desc or "No description", -- Ensure every mapping has a description
+    }, opts)
+    vim.keymap.set(mode, lhs, rhs, opts)
+  end
 
-    -- Unset leader key mappings
-    map({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+  -- Leader key
+  vim.g.mapleader = " "
+  vim.g.maplocalleader = " "
+  map({ "n", "v" }, "<Space>", "<Nop>", { desc = "Unmap space leader" })
 
-    -- Deal with word wrap
-    map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
-    map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
+  -- Better window navigation
+  map("n", "<C-h>", "<C-w>h", { desc = "Move to left window" })
+  map("n", "<C-j>", "<C-w>j", { desc = "Move to lower window" })
+  map("n", "<C-k>", "<C-w>k", { desc = "Move to upper window" })
+  map("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
-    -- Center cursor after screen jump
-    map("n", "<C-u>", "<C-u>zz")
-    map("n", "<C-d>", "<C-d>zz")
+  -- Better navigation
+  map("n", "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, desc = "Move cursor up" })
+  map("n", "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, desc = "Move cursor down" })
+  map("n", "<C-u>", "<C-u>zz", { desc = "Page up and center" })
+  map("n", "<C-d>", "<C-d>zz", { desc = "Page down and center" })
+  map("n", "n", "nzzzv", { desc = "Next search result and center" })
+  map("n", "N", "Nzzzv", { desc = "Previous search result and center" })
+  map("n", "G", "Gzz", { desc = "Go to end of file and center" })
 
-    -- Center search results
-    map("n", "n", "nzzzv")
-    map("n", "N", "Nzzzv")
+  -- Redo
+  map("n", "U", "<C-r>", { desc = "Redo" })
 
-    -- Center after linejump
-    map("n", "G", "Gzz")
+  -- Line manipulation
+  map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move lines down" })
+  map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move lines up" })
 
-    -- Make U opposite to u.
-    map("n", "U", "<C-r>", { desc = "Redo" })
+  -- Custom commands
+  map("n", "<leader>so", ":!./sync<CR>", { desc = "Sync OBC" })
+  map("n", "<leader>ga", ":!asciidoctor -r asciidoctor-diagram --verbose --trace index.adoc<CR>", { desc = "Generate Asciidoctor" })
 
-    -- Move highlighted lines with ctrl+k/j
-    map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move highlighted lines down" })
-    map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move hightligted lines up" })
+  -- EasyAlign
+  map('x', 'ga', '<Plug>(EasyAlign)', { desc = "Start EasyAlign in visual mode" })
+  map('n', 'ga', '<Plug>(EasyAlign)', { desc = "Start EasyAlign for motion/text object" })
 
-    -- Sync OBC to server
-    map("n", "<leader>so", ":!./sync<CR>", { desc = "[S]ync [O]BC" })
-    map(
-      "n",
-      "<leader>ga",
-      ":!asciidoctor -r asciidoctor-diagram --verbose --trace index.adoc<CR>",
-      { desc = "[M]ake [A]sciidoctor" }
-    )
+  -- Cellular Automaton
+  map("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Make it rain" })
+end
 
-    -- Cellular Automaton
-    map("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>")
-
-    -- Start interactive EasyAlign in visual mode (e.g. vipga)
-    map('x', 'ga', '<Plug>(EasyAlign)', {})
-
-    -- Start interactive EasyAlign for a motion/text object (e.g. gaip)
-    map('n', 'ga', '<Plug>(EasyAlign)', {})
-  end,
-}
+return M
