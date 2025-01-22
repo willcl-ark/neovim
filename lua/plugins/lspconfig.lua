@@ -29,8 +29,25 @@ return {
       lspconfig.clangd.setup(servers.get_clangd_config())
       lspconfig.pyright.setup(servers.get_pyright_config(capabilities()))
 
+      -- Setup nil_ls with nixfmt formatting
+      local ok = pcall(function()
+        lspconfig.nil_ls.setup({
+          capabilities = capabilities(),
+          settings = {
+            ["nil"] = {
+              formatting = {
+                command = { "nixfmt" },
+              },
+            },
+          },
+        })
+      end)
+      if not ok then
+        vim.notify("LSP nil_ls not found", vim.log.levels.DEBUG)
+      end
+
       -- Setup basic servers
-      local basic_servers = { "cmake", "gopls", "lua_ls", "nil_ls", "zls" }
+      local basic_servers = { "cmake", "gopls", "lua_ls", "zls" }
       for _, server in ipairs(basic_servers) do
         local ok = pcall(function()
           lspconfig[server].setup({ capabilities = capabilities() })
