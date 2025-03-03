@@ -62,9 +62,7 @@ return {
         opt.completeopt = "menuone,noselect"
 
         -- Python venv
-        local py_env_var = os.getenv("NVIM_PYTHON")
         local py3_env_var = os.getenv("NVIM_PYTHON3")
-        vim.g.python_host_prog = py_env_var and py_env_var or "python"
         vim.g.python3_host_prog = py3_env_var and py3_env_var or "python3"
 
         -- Use system clipboard
