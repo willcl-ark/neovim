@@ -11,7 +11,7 @@ return {
         -- Use relative numbers
         opt.relativenumber = true
         -- Don't show less than 8 lines of context
-        opt.scrolloff = 8
+        -- opt.scrolloff = 8
 
         -- Always show sign column to avoid text shifting
         opt.signcolumn = "yes"
