@@ -2,48 +2,47 @@
 
 - 🚀 Blazingly fast
 - 💤 Uses [lazy.nvim](https://github.com/folke/lazy.nvim)
+- Native LSP and completion from [neovim 11.0](https://neovim.io/doc/user/news-0.11.html)
 
 ## Requirements
 
 ### General
 
+- Neovim >= 0.11.0
+- a [Nerd Font](https://www.nerdfonts.com/) for glyphs (optional)
+- a terminal with true colour
+
 The following should be available to Neovim (on `$PATH`) for LSP/telescope to function properly:
 
-- Neovim >= 0.8.0
-- a [Nerd Font](https://www.nerdfonts.com/) for glyphs (optional)
-- a terminal with true colour (kitty, alacritty, iTerm2 etc.)
 - `git`
 - [`ripgrep`](https://github.com/BurntSushi/ripgrep)
 - [`fd`-find](https://github.com/sharkdp/fd)
 
-There are some language-specific tools which are searched for on `$PATH` and installed automatically  by mason-lspconfig if they are not found there.
-Tools can be installed directly via Mason (with `:Mason`), but it's generally preferable to use a tool found on `$PATH` as then the tool will directly match versions with what the user will use in the terminal.
+Starting `nvim` and running `:checkhealth` should detail what is missing from the config :)
 
-Starting `nvim` and running `:checkhealth` will detail what is missing.
-
-### C++
+#### C++
 
 - [`clangd`](https://clangd.llvm.org/)
 - [`cmake`](https://cmake.org/)
 
-### Rust
+#### Rust
 
 - [`rust_analyzer`](https://rust-analyzer.github.io/manual.html)
 
-### Python
+#### Python
 
 - [`pyright`](https://github.com/microsoft/pyright)
 - [`ruff`](https://github.com/astral-sh/ruff)
 
-### Go
+#### Go
 
 - [`gopls`](https://pkg.go.dev/golang.org/x/tools/gopls)
 
-### Zig
+#### Zig
 
 - [`zls`](https://github.com/zigtools/zls)
 
-### Misc
+#### Misc
 
 - [`shellcheck`](https://www.shellcheck.net/)
 - [`shfmt`](https://github.com/mvdan/sh)
@@ -115,4 +114,3 @@ You must compile C++ programs using `cmake` (or `Bear`) to generate a compile_co
 - `<space>z`                               Zen mode toggle
 - `<space>ud`                              Diagnostics toggle
 - `<space>uw`                              Word wrap toggle
-
