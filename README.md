@@ -25,7 +25,6 @@ Starting `nvim` and running `:checkhealth` will detail what is missing.
 
 - [`clangd`](https://clangd.llvm.org/)
 - [`cmake`](https://cmake.org/)
-- [`Bear`](https://github.com/rizsotto/Bear) (optional but required for C++ LSP if not using `cmake` to output a `compile_commands.json` file)
 
 ### Rust
 
@@ -35,7 +34,6 @@ Starting `nvim` and running `:checkhealth` will detail what is missing.
 
 - [`pyright`](https://github.com/microsoft/pyright)
 - [`ruff`](https://github.com/astral-sh/ruff)
-- [`yapf`](https://github.com/google/yapf) (optional)
 
 ### Go
 
@@ -78,20 +76,6 @@ git clone https://github.com/willcl-ark/neovim ~/.config/nvim
 rm -rf ~/.config/nvim/.git
 ```
 
-- (Optional, recommended) set up dedicated python venv(s) for neovim:
-  - python3 venv and install `pynvim` package
-  - python2 venv and install `pynvim` package [optional]
-
-- Export env vars `NVIM_PYTHON3` and optionally `NVIM_PYTHON` to point to the python environment(s) for neovim, e.g.:
-
-e.g.:
-
-```fish
-# fish shell syntax
-set -gx NVIM_PYTHON $HOME/.pyenv/versions/neovim2/bin/python
-set -gx NVIM_PYTHON3 $HOME/.pyenv/versions/neovim3/bin/python
-```
-
 - Start `nvim`, wait for installation and first-time-setup to finish and run `:checkhealth`
 
 ## Getting started
@@ -99,9 +83,9 @@ set -gx NVIM_PYTHON3 $HOME/.pyenv/versions/neovim3/bin/python
 `:Lazy` will open the package manager.
 `q` to quit.
 
-`:Mason` will open the LSP server manager which can be used to install LSP servers, DAP, Formatters and Linters from within neovim.
-Default config will install LSPs found in `~/.config/nvim/lua/plugins/lsp.lua`, e.g.: `local servers = { "lua_ls" }`, and will look for `clangd`, `rust_analyzer` and others on `$PATH`.
-`q` to quit.
+LSPs configurations are found in `lsp/`, and enabled in `lua/lsp.lua`. The various language servers should be installed on your `$PATH` manually for enabled LSPs.
+Configurations for other languages can generally be found in the [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig?tab=readme-ov-file#nvim-lspconfig) repo, and particular settings for a language server in that project's documentation.
+run `:help lsp-quickstart` in neovim to see lsp help.
 
 `<space> sk` will open a Telescope search with (most) key bindings.
 Filter by `space` (our "leader" key) to see most-useful bindings.
@@ -112,7 +96,7 @@ Bindings for unloaded plugins will _not_ be shown (e.g. LSP bindings when an LSP
 
 ### C++
 
-You must compile C++ programs using `cmake` or `Bear` to generate a compile_commands.json for the clangd LS to use.
+You must compile C++ programs using `cmake` (or `Bear`) to generate a compile_commands.json for the clangd language server to use.
 
 ### Handy bindings
 
