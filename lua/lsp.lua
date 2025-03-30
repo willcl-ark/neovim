@@ -1,6 +1,34 @@
+vim.lsp.enable({'clangd'})
+vim.lsp.enable({'cmake'})
+vim.lsp.enable({'gopls'})
+vim.lsp.enable({'lua_ls'})
+vim.lsp.enable({'nil_ls'})
+vim.lsp.enable({'pyright'})
+vim.lsp.enable({'ruff'})
+vim.lsp.enable({'zls'})
+
+-- Diagnostics --
+vim.diagnostic.config({
+  virtual_lines = {
+   -- Only show virtual line diagnostics for the current cursor line
+   current_line = true,
+  },
+})
+
+-- Autocomplete
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    if client:supports_method('textDocument/completion') then
+      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
+    end
+  end,
+})
+
+-- Main LSP
 local M = {}
 
--- LSP capabilities
+-- Capabilities
 function M.client_capabilities()
   return vim.tbl_deep_extend(
     "force",
@@ -18,8 +46,6 @@ end
 function M.on_attach(_, bufnr)
   -- stylua: ignore start
   -- Diagnostic keymaps
-  vim.keymap.set("n", "[d",        vim.diagnostic.goto_prev)
-  vim.keymap.set("n", "]d",        vim.diagnostic.goto_next)
   vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
   vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
   vim.keymap.set("n", "<leader>d", function()
