@@ -35,6 +35,10 @@ return {
           colorscheme = {
             enable_preview = true,
           },
+          find_files = {
+            -- `hidden = true` will still show the inside of `.git/` as it's not `.gitignore`d.
+            find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
+          },
           git_commits = {
             mappings = {
               n = {
@@ -65,6 +69,9 @@ return {
               },
             },
           },
+          preview = {
+            filesize_limit = 0.2, -- MB
+          },
           vimgrep_arguments = {
             "rg",
             "--color=never",
@@ -73,7 +80,7 @@ return {
             "--line-number",
             "--column",
             "--smart-case",
-            "--trim", -- add this value
+            "--trim",
           },
           prompt_prefix = " ",
           selection_caret = " ",
@@ -145,7 +152,7 @@ return {
     keys = {
         { "<leader>?",        "<cmd>Telescope oldfiles<cr>",                       desc = "[?] Find recently opened files" },
         { "<leader><leader>", "<cmd>Telescope buffers<cr>",                        desc = "[ ] Find existing buffers" },
-        { "<leader>sf",       "<cmd>Telescope find_files<cr>",                     desc = "[S]earch [F]iles" },
+        { "<leader>sf",       "<cmd>Telescope find_files <cr>",                    desc = "[S]earch [F]iles" },
         { "<leader>sw",       "<cmd>Telescope grep_string<cr>",                    desc = "[S]earch [W]ord" },
         { "<leader>sg",       "<cmd>Telescope live_grep<cr>",                      desc = "[S]earch by [G]rep" },
         { "<leader>ss",       "<cmd>Telescope live_grep search_dirs={'src/'}<cr>", desc = "[S]earch [S]rc folder with Grep" },
