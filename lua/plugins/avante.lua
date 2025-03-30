@@ -17,6 +17,7 @@ return {
   dependencies = {
     "MunifTanjim/nui.nvim",
     "hrsh7th/nvim-cmp",
+    "nvim-telescope/telescope.nvim",
     "nvim-lua/plenary.nvim",
     "nvim-tree/nvim-web-devicons",
     "stevearc/dressing.nvim",

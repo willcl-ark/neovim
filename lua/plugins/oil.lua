@@ -7,7 +7,7 @@ return {
         show_hidden = true,
       },
     },
-    -- Optional dep
+    -- Optional
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
 }
