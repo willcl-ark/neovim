@@ -9,7 +9,7 @@ return {
     "--fallback-style=llvm",
   },
   root_markers = { "compile_commands.json", "compile_flags.txt" },
-  filetypes = { 'c', 'cpp', 'objc', 'objcpp', 'cuda', 'proto' },
+  filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   single_file_support = true,
   capabilities = {
     textDocument = {
@@ -17,6 +17,5 @@ return {
         editsNearCursor = true,
       },
     },
-    -- offsetEncoding = { "utf-8", "utf-16" },
   },
 }

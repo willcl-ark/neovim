@@ -1,3 +1,4 @@
+-- lua/core/autocmd.lua
 local M = {}
 
 function M.setup()
