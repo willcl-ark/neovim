@@ -1,22 +1,22 @@
 # Neovim config
 
-- 🚀 Blazingly fast
-- 💤 Uses [lazy.nvim](https://github.com/folke/lazy.nvim)
 - Native LSP and completion from [neovim 11.0](https://neovim.io/doc/user/news-0.11.html)
+- 💤 Uses [lazy.nvim](https://github.com/folke/lazy.nvim)
+- 🚀 Blazingly fast
 
 ## Requirements
 
 ### General
 
-- Neovim >= 0.11.0
+- `neovim` >= 0.11.0
 - a [Nerd Font](https://www.nerdfonts.com/) for glyphs (optional)
 - a terminal with true colour
 
-The following should be available to Neovim (on `$PATH`) for LSP/telescope to function properly:
+The following should be available to `neovim` (on `$PATH`) for LSP/telescope to function properly:
 
 - `git`
 - [`ripgrep`](https://github.com/BurntSushi/ripgrep)
-- [`fd`-find](https://github.com/sharkdp/fd)
+- [`fd`](https://github.com/sharkdp/fd)
 
 Starting `nvim` and running `:checkhealth` should detail what is missing from the config :)
 
@@ -24,10 +24,12 @@ Starting `nvim` and running `:checkhealth` should detail what is missing from th
 
 - [`clangd`](https://clangd.llvm.org/)
 - [`cmake`](https://cmake.org/)
+- [`clang-format`](https://clang.llvm.org/docs/ClangFormat.html)
 
 #### Rust
 
-- [`rust_analyzer`](https://rust-analyzer.github.io/manual.html)
+- [`rust-analyzer`](https://rust-analyzer.github.io/manual.html)
+- [`rustfmt`](https://github.com/rust-lang/rustfmt)
 
 #### Python
 
@@ -37,21 +39,28 @@ Starting `nvim` and running `:checkhealth` should detail what is missing from th
 #### Go
 
 - [`gopls`](https://pkg.go.dev/golang.org/x/tools/gopls)
+- [`gofmt`](https://pkg.go.dev/cmd/gofmt)
 
 #### Zig
 
 - [`zls`](https://github.com/zigtools/zls)
 
-#### Misc
+#### Shell(s)
 
+- [`fish_lsp`](https://github.com/ndonfris/fish-lsp)
 - [`shellcheck`](https://www.shellcheck.net/)
 - [`shfmt`](https://github.com/mvdan/sh)
+
+#### Misc
+
+- [`codespell`](https://github.com/codespell-project/codespell)
 - [`gitlint`](https://jorisroovers.com/gitlint/latest/)
+- [`mdformat`](https://github.com/hukkin/mdformat)
 - [`stylua`](https://github.com/JohnnyMorganz/StyLua)
 
 ## Setup
 
-- Make a backup of your current Neovim files:
+- Make a backup of your current neovim files:
 
 ```bash
 # required
@@ -82,9 +91,12 @@ rm -rf ~/.config/nvim/.git
 `:Lazy` will open the package manager.
 `q` to quit.
 
-LSPs configurations are found in `lsp/`, and enabled in `lua/lsp.lua`. The various language servers should be installed on your `$PATH` manually for enabled LSPs.
+LSPs configurations are configured per-lsp using the `lsp/*.lua` files. They are then enabled in `lua/lsp.lua`.
+The various language servers should be installed on your `$PATH` manually for enabled LSPs.
 Configurations for other languages can generally be found in the [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig?tab=readme-ov-file#nvim-lspconfig) repo, and particular settings for a language server in that project's documentation.
 run `:help lsp-quickstart` in neovim to see lsp help.
+
+Formatters are configured in `lua/plugins/conform.lua`, and should also be made available on `$PATH`.
 
 `<space> sk` will open a Telescope search with (most) key bindings.
 Filter by `space` (our "leader" key) to see most-useful bindings.
@@ -92,10 +104,6 @@ Bindings for unloaded plugins will _not_ be shown (e.g. LSP bindings when an LSP
 `<esc>` to quit.
 
 `<space>aa` will ask Claude about the file. If in visual mode only the visual selection will be sent as context. See avante.nvim for more details.
-
-### C++
-
-You must compile C++ programs using `cmake` (or `Bear`) to generate a compile_commands.json for the clangd language server to use.
 
 ### Handy bindings
 

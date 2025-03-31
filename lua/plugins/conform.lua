@@ -2,7 +2,7 @@ return {
   {
     "stevearc/conform.nvim",
     cmd = { "ConformInfo" },
-    event = "BufEnter",
+    event = "BufWritePre",
     keys = {
       {
         "<leader>f",
@@ -14,6 +14,9 @@ return {
       },
     },
     -- Everything in opts will be passed to setup()
+    -- This will provide type hinting with LuaLS
+    --@module "conform"
+    ---@type conform.setupOpts
     opts = {
       -- Define your formatters
       formatters_by_ft = {
@@ -28,6 +31,9 @@ return {
         rust = { "rustfmt" },
         sh = { "shfmt", "shellcheck" },
         yaml = { "yamlfmt" },
+        -- Use the "*" filetype to run formatters on all filetypes.
+        ["*"] = { "codespell" },
+        -- If no other formatter specified:
         ["_"] = { "trim_whitespace" },
       },
       -- Set up format-on-save
