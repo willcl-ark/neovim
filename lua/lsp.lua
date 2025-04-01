@@ -1,27 +1,27 @@
-vim.lsp.enable({'basedpyright'})
-vim.lsp.enable({'clangd'})
-vim.lsp.enable({'cmake'})
-vim.lsp.enable({'fish_lsp'})
-vim.lsp.enable({'gopls'})
-vim.lsp.enable({'lua_ls'})
-vim.lsp.enable({'nil_ls'})
-vim.lsp.enable({'ruff'})
-vim.lsp.enable({'rust_analyzer'})
-vim.lsp.enable({'zls'})
+vim.lsp.enable({ "basedpyright" })
+vim.lsp.enable({ "clangd" })
+vim.lsp.enable({ "cmake" })
+vim.lsp.enable({ "fish_lsp" })
+vim.lsp.enable({ "gopls" })
+vim.lsp.enable({ "lua_ls" })
+vim.lsp.enable({ "nil_ls" })
+vim.lsp.enable({ "ruff" })
+vim.lsp.enable({ "rust_analyzer" })
+vim.lsp.enable({ "zls" })
 
 -- Diagnostics --
 vim.diagnostic.config({
   virtual_lines = {
-   -- Only show virtual line diagnostics for the current cursor line
-   current_line = true,
+    -- Only show virtual line diagnostics for the current cursor line
+    current_line = true,
   },
 })
 
 -- Autocomplete
-vim.api.nvim_create_autocmd('LspAttach', {
+vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client:supports_method('textDocument/completion') then
+    if client:supports_method("textDocument/completion") then
       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
     end
   end,
@@ -32,16 +32,11 @@ local M = {}
 
 -- Capabilities
 function M.client_capabilities()
-  return vim.tbl_deep_extend(
-    "force",
-    vim.lsp.protocol.make_client_capabilities(),
-    require("cmp_nvim_lsp").default_capabilities(),
-    {
-      workspace = {
-        didChangeWatchedFiles = { dynamicRegistration = false },
-      },
-    }
-  )
+  return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), require("cmp_nvim_lsp").default_capabilities(), {
+    workspace = {
+      didChangeWatchedFiles = { dynamicRegistration = false },
+    },
+  })
 end
 
 -- LSP keymaps and autocommands
@@ -85,8 +80,16 @@ function M.on_attach(_, bufnr)
   -- stylua: ignore end
 end
 
--- Initialize LSP utilities and set up handlers
-require('lsp_utils').setup_handlers()
+-- a simple handler for registerCapability
+local old_handlers = vim.lsp.handlers
+vim.lsp.handlers = setmetatable({
+  ["client/registerCapability"] = function()
+    -- Empty handler that responds with 'null'
+    return vim.NIL
+  end,
+}, {
+  __index = old_handlers,
+})
 
 -- LSP attach autocmd
 vim.api.nvim_create_autocmd("LspAttach", {
