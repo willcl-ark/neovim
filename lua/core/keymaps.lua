@@ -38,10 +38,6 @@ return {
     map("v", "<C-j>", ":m '>+1<CR>gv=gv", { desc = "Move lines down" })
     map("v", "<C-k>", ":m '<-2<CR>gv=gv", { desc = "Move lines up" })
 
-    -- Custom commands
-    map("n", "<leader>so", ":!./sync<CR>", { desc = "Sync OBC" })
-    map("n", "<leader>ga", ":!asciidoctor -r asciidoctor-diagram --verbose --trace index.adoc<CR>", { desc = "Generate Asciidoctor" })
-
     -- EasyAlign
     map("x", "ga", "<Plug>(EasyAlign)", { desc = "Start EasyAlign in visual mode" })
     map("n", "ga", "<Plug>(EasyAlign)", { desc = "Start EasyAlign for motion/text object" })
