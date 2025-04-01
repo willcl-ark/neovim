@@ -44,11 +44,16 @@ function M.setup()
   map("n", "<leader>ga", ":!asciidoctor -r asciidoctor-diagram --verbose --trace index.adoc<CR>", { desc = "Generate Asciidoctor" })
 
   -- EasyAlign
-  map('x', 'ga', '<Plug>(EasyAlign)', { desc = "Start EasyAlign in visual mode" })
-  map('n', 'ga', '<Plug>(EasyAlign)', { desc = "Start EasyAlign for motion/text object" })
+  map("x", "ga", "<Plug>(EasyAlign)", { desc = "Start EasyAlign in visual mode" })
+  map("n", "ga", "<Plug>(EasyAlign)", { desc = "Start EasyAlign for motion/text object" })
 
   -- Cellular Automaton
   map("n", "<leader>fml", "<cmd>CellularAutomaton make_it_rain<CR>", { desc = "Make it rain" })
+
+  -- Toggle Neovim 0.11 inlay hints
+  map("n", "<leader>i", function()
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled({ bufnr = 0 }), { bufnr = 0 })
+  end, { desc = "Toggle Inlay Hints" })
 end
 
 return M
