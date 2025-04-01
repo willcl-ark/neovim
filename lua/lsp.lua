@@ -1,10 +1,10 @@
+vim.lsp.enable({'basedpyright'})
 vim.lsp.enable({'clangd'})
 vim.lsp.enable({'cmake'})
 vim.lsp.enable({'fish_lsp'})
 vim.lsp.enable({'gopls'})
 vim.lsp.enable({'lua_ls'})
 vim.lsp.enable({'nil_ls'})
-vim.lsp.enable({'pyright'})
 vim.lsp.enable({'ruff'})
 vim.lsp.enable({'rust_analyzer'})
 vim.lsp.enable({'zls'})
@@ -85,19 +85,8 @@ function M.on_attach(_, bufnr)
   -- stylua: ignore end
 end
 
--- Dynamic capability registration
-local register_capability_key = "client/registerCapability"
-local existing_handler = vim.lsp.handlers[register_capability_key]
-
-vim.lsp.handlers[register_capability_key] = function(err, res, ctx)
-  local client = vim.lsp.get_client_by_id(ctx.client_id)
-  if client then
-    M.on_attach(client, vim.api.nvim_get_current_buf())
-    if existing_handler then
-      existing_handler(err, res, ctx)
-    end
-  end
-end
+-- Initialize LSP utilities and set up handlers
+require('lsp_utils').setup_handlers()
 
 -- LSP attach autocmd
 vim.api.nvim_create_autocmd("LspAttach", {

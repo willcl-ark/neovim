@@ -1,4 +1,4 @@
-{
+{https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization
   description = "Neovim with LSPs and formatters";
 
   inputs = {
@@ -31,7 +31,7 @@
             rustfmt
 
             # Python
-            pyright
+            basedpyright
             ruff
 
             # Go

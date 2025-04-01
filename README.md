@@ -33,7 +33,7 @@ Starting `nvim` and running `:checkhealth` should detail what is missing from th
 
 #### Python
 
-- [`pyright`](https://github.com/microsoft/pyright)
+- [`basedpyright`](https://docs.basedpyright.com/latest/)
 - [`ruff`](https://github.com/astral-sh/ruff)
 
 #### Go
