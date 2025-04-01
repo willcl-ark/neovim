@@ -21,7 +21,8 @@ vim.diagnostic.config({
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(ev)
     local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    if client:supports_method("textDocument/completion") then
+    -- Ensure client exists before checking methods and accessing properties
+    if client and client:supports_method("textDocument/completion") then
       vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
     end
   end,
@@ -30,13 +31,19 @@ vim.api.nvim_create_autocmd("LspAttach", {
 -- Main LSP
 local M = {}
 
--- Capabilities
+-- Capabilities - Optimized for Neovim 0.11
 function M.client_capabilities()
-  return vim.tbl_deep_extend("force", vim.lsp.protocol.make_client_capabilities(), require("cmp_nvim_lsp").default_capabilities(), {
-    workspace = {
-      didChangeWatchedFiles = { dynamicRegistration = false },
-    },
-  })
+  -- Get Neovim's built-in capabilities
+  local capabilities = vim.lsp.protocol.make_client_capabilities()
+
+  -- Add cmp_nvim_lsp capabilities for better completion
+  capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+
+  -- Add extra capabilities
+  capabilities.workspace = capabilities.workspace or {}
+  capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false }
+
+  return capabilities
 end
 
 -- LSP keymaps and autocommands
