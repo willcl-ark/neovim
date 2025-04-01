@@ -106,8 +106,10 @@ return {
       end
     end
 
-    ensure_dir(opt.directory:get()[1])
-    ensure_dir(opt.backupdir:get()[1])
-    ensure_dir(opt.undodir:get()[1])
+    -- Get the first directory from each option
+    -- Using vim.api.nvim_get_option_value for Neovim 0.11+ compatibility
+    ensure_dir(vim.fn.expand(vim.api.nvim_get_option_value("directory", {}):match("^[^,]+")))
+    ensure_dir(vim.fn.expand(vim.api.nvim_get_option_value("backupdir", {}):match("^[^,]+")))
+    ensure_dir(vim.fn.expand(vim.api.nvim_get_option_value("undodir", {}):match("^[^,]+")))
   end,
 }
