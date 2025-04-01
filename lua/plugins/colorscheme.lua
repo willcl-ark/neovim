@@ -57,7 +57,6 @@ local M = {
   },
 }
 
--- Setup function that can be called from options.lua
 function M.setup_colorscheme()
   vim.cmd([[colorscheme gruvbox-material]])
 end
