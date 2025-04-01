@@ -1,3 +1,9 @@
+-- Default root marker for all LSPs
+vim.lsp.config("*", {
+  root_markers = { ".git" },
+})
+
+-- Enabled LSP servers
 vim.lsp.enable({ "basedpyright" })
 vim.lsp.enable({ "clangd" })
 vim.lsp.enable({ "cmake" })
