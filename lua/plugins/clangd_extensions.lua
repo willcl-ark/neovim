@@ -1,6 +1,6 @@
 return {
   "p00f/clangd_extensions.nvim",
-  filetypes = { "c", "cpp", "objc", "objcpp" },
+  ft = { "c", "cpp", "objc", "objcpp" },
   config = function() end,
   opts = {
     inlay_hints = {

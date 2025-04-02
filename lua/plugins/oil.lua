@@ -1,13 +1,12 @@
 return {
   {
     "stevearc/oil.nvim",
-    opts = {
-      view_options = {
-        -- Show files and directories that start with "."
-        show_hidden = true,
-      },
-    },
-    -- Optional
-    dependencies = { "nvim-tree/nvim-web-devicons" },
+    ---@module 'oil'
+    ---@type oil.SetupOpts
+    opts = {},
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" }, -- use if you prefer nvim-web-devicons
+    -- Lazy loading is not recommended because it is very tricky to make it work correctly in all situations.
+    lazy = false,
   },
 }

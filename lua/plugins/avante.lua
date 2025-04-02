@@ -1,6 +1,8 @@
 return {
   "yetone/avante.nvim",
-  event = "VeryLazy",
+  keys = {
+    { "<leader>aa", "<cmd>AvanteAsk<cr>", desc = "Ask Avante" },
+  },
   build = "make BUILD_FROM_SOURCE=true luajit",
   opts = {
     ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
