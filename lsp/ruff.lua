@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup('lsp_attach_disable_ruff_hover', { clear = true }),
   callback = function(args)

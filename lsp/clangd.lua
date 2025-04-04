@@ -1,3 +1,4 @@
+---@type vim.lsp.Config
 return {
   cmd = {
     "clangd",
@@ -8,7 +9,7 @@ return {
     "--function-arg-placeholders",
     "--fallback-style=llvm",
   },
-  root_markers = { "compile_commands.json", "compile_flags.txt" },
+  root_markers = { "compile_commands.json", "compile_flags.txt", ".git"},
   filetypes = { "c", "cpp", "objc", "objcpp", "cuda", "proto" },
   single_file_support = true,
   capabilities = {

@@ -1,6 +1,15 @@
+---@type vim.lsp.Config
 return {
   cmd = { "basedpyright-langserver", "--stdio" },
-  root_markers = { "pyproject.toml", "setup.py", ".git" },
+  root_markers = {
+    ".git",
+    "Pipfile",
+    "pyproject.toml",
+    "pyrightconfig.json",
+    "requirements.txt",
+    "setup.cfg",
+    "setup.py",
+  },
   filetypes = { "python" },
   single_file_support = true,
   settings = {

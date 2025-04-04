@@ -1,5 +1,14 @@
--- Default root marker for all LSPs
+-- Setup default LSP capabilities
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+-- Add cmp_nvim_lsp (for better completions)
+capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+capabilities.workspace = capabilities.workspace or {}
+capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false }
+
+-- Default config to apply to lsps.
+-- See :h lsp-config for override precedence.
 vim.lsp.config("*", {
+  capabilities = capabilities,
   root_markers = { ".git" },
 })
 
@@ -34,65 +43,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
   end,
 })
 
--- Main LSP
-local M = {
-  -- Capabilities
-  client_capabilities = function()
-    -- Get Neovim's built-in capabilities
-    local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-    -- Add cmp_nvim_lsp capabilities (better completion)
-    capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
-
-    -- Add some extra capabilities
-    capabilities.workspace = capabilities.workspace or {}
-    capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false }
-
-    return capabilities
-  end,
-
-  -- LSP keymaps and autocommands
-  on_attach = function(_, bufnr)
-    -- stylua: ignore start
-    -- Diagnostic keymaps
-    vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
-    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
-    vim.keymap.set("n", "<leader>d", function()
-      vim.diagnostic.enable(not vim.diagnostic.is_enabled())
-    end)
-
-    -- LSP keymaps
-    local nmap = function(keys, func, desc)
-      vim.keymap.set("n", keys, func, { buffer = bufnr, desc = "LSP: " .. (desc or "") })
-    end
-
-    -- Core LSP functionality
-    nmap("<leader>rn", vim.lsp.buf.rename,                      "[R]e[n]ame")
-    nmap("<leader>ca", vim.lsp.buf.code_action,                 "[C]ode [A]ction")
-    nmap("K",          vim.lsp.buf.hover,                       "Hover Do[K]umentation")
-    nmap("<C-k>",      vim.lsp.buf.signature_help,              "Signature Do[K]umentation")
-    nmap("gD",         vim.lsp.buf.declaration,                 "[G]oto [D]eclaration")
-
-    -- Telescope-based LSP actions
-    local telescope = require("telescope.builtin")
-    nmap("gr",         telescope.lsp_references,                "[G]oto [R]eferences")
-    nmap("<leader>gs", telescope.lsp_document_symbols,          "[G]oto [S]ymbols")
-    nmap("<leader>ws", telescope.lsp_dynamic_workspace_symbols, "[W]orkspace [S]ymbols")
-    nmap("<leader>sd", telescope.diagnostics,                   "[S]earch [D]iagnostics")
-    nmap("gI",         telescope.lsp_implementations,           "[G]oto [I]mplementations")
-    nmap("gd",         telescope.lsp_definitions,               "[G]oto [D]efinitions")
-    nmap("gt",         telescope.lsp_type_definitions,          "[G]oto [T]ype Definition")
-
-    -- Workspace folder management
-    nmap("<leader>wa", vim.lsp.buf.add_workspace_folder,        "[W]orkspace [A]dd Folder")
-    nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder,     "[W]orkspace [R]emove Folder")
-    nmap("<leader>wl", function()
-      print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end,                                                        "[W]orkspace [L]ist Folders")
-    -- stylua: ignore end
-  end,
-}
-
 -- a simple handler for registerCapability
 local old_handlers = vim.lsp.handlers
 vim.lsp.handlers = setmetatable({
@@ -111,9 +61,43 @@ vim.api.nvim_create_autocmd("LspAttach", {
   callback = function(args)
     local client = vim.lsp.get_client_by_id(args.data.client_id)
     if client then
-      M.on_attach(client, args.buf)
+      -- stylua: ignore start
+      -- Diagnostic keymaps
+      vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float)
+      vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist)
+      vim.keymap.set("n", "<leader>d", function()
+        vim.diagnostic.enable(not vim.diagnostic.is_enabled())
+      end)
+
+      -- LSP keymaps
+      local nmap = function(keys, func, desc)
+        vim.keymap.set("n", keys, func, { buffer = args.buf, desc = "LSP: " .. (desc or "") })
+      end
+
+      -- Core LSP functionality
+      nmap("<leader>rn", vim.lsp.buf.rename,                      "[R]e[n]ame")
+      nmap("<leader>ca", vim.lsp.buf.code_action,                 "[C]ode [A]ction")
+      nmap("K",          vim.lsp.buf.hover,                       "Hover Do[K]umentation")
+      nmap("<C-k>",      vim.lsp.buf.signature_help,              "Signature Do[K]umentation")
+      nmap("gD",         vim.lsp.buf.declaration,                 "[G]oto [D]eclaration")
+
+      -- Telescope-based LSP actions
+      local telescope = require("telescope.builtin")
+      nmap("gr",         telescope.lsp_references,                "[G]oto [R]eferences")
+      nmap("<leader>gs", telescope.lsp_document_symbols,          "[G]oto [S]symbols")
+      nmap("<leader>ws", telescope.lsp_dynamic_workspace_symbols, "[W]orkspace [S]symbols")
+      nmap("<leader>sd", telescope.diagnostics,                   "[S]earch [D]iagnostics")
+      nmap("gI",         telescope.lsp_implementations,           "[G]oto [I]mplementations")
+      nmap("gd",         telescope.lsp_definitions,               "[G]oto [D]definitions")
+      nmap("gt",         telescope.lsp_type_definitions,          "[G]oto [T]ype Definition")
+
+      -- Workspace folder management
+      nmap("<leader>wa", vim.lsp.buf.add_workspace_folder,        "[W]orkspace [A]dd Folder")
+      nmap("<leader>wr", vim.lsp.buf.remove_workspace_folder,     "[W]orkspace [R]emove Folder")
+      nmap("<leader>wl", function()
+        print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+      end,                                                        "[W]orkspace [L]ist Folders")
+      -- stylua: ignore end
     end
   end,
 })
-
-return M
