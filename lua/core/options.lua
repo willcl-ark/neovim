@@ -58,9 +58,6 @@ return {
     -- Highlight current line
     opt.cursorline = true
 
-    -- Set completeopt to have a better completion experience
-    opt.completeopt = "menuone,noselect"
-
     -- Python venv
     local py3_env_var = os.getenv("NVIM_PYTHON3")
     vim.g.python3_host_prog = py3_env_var and py3_env_var or "python3"

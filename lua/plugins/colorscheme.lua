@@ -7,7 +7,6 @@ local M = {
       integrations = {
         telescope = true,
         mason = true,
-        cmp = true,
         treesitter = true,
       },
     },

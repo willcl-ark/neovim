@@ -1,7 +1,14 @@
--- Setup default LSP capabilities
-local capabilities = vim.lsp.protocol.make_client_capabilities()
--- Add cmp_nvim_lsp (for better completions)
-capabilities = vim.tbl_deep_extend("force", capabilities, require("cmp_nvim_lsp").default_capabilities())
+-- Merge default, blink.cmp and a few extra capabilites
+local capabilities = {
+  textDocument = {
+    foldingRange = {
+      dynamicRegistration = false,
+      lineFoldingOnly = true
+    }
+  }
+}
+
+capabilities = require('blink.cmp').get_lsp_capabilities(capabilities)
 capabilities.workspace = capabilities.workspace or {}
 capabilities.workspace.didChangeWatchedFiles = { dynamicRegistration = false }
 
@@ -13,6 +20,7 @@ vim.lsp.config("*", {
 })
 
 -- Enabled LSP servers
+-- See each server config in lsp/*.lua
 vim.lsp.enable({ "basedpyright" })
 vim.lsp.enable({ "clangd" })
 vim.lsp.enable({ "cmake" })
@@ -26,21 +34,19 @@ vim.lsp.enable({ "zls" })
 
 -- Diagnostics --
 vim.diagnostic.config({
+  -- Only use virtual lines for errors
   virtual_lines = {
-    -- Only show virtual line diagnostics for the current cursor line
     current_line = true,
+    severity = {
+      min = vim.diagnostic.severity.ERROR,
+    },
   },
-})
-
--- Autocomplete
-vim.api.nvim_create_autocmd("LspAttach", {
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    -- Ensure client exists before checking methods and accessing properties
-    if client and client:supports_method("textDocument/completion") then
-      vim.lsp.completion.enable(true, client.id, ev.buf, { autotrigger = true })
-    end
-  end,
+  -- Use virtual text otherwise
+  virtual_text = {
+    severity = {
+      max = vim.diagnostic.severity.WARN,
+    },
+  },
 })
 
 -- a simple handler for registerCapability
