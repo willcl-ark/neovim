@@ -11,7 +11,7 @@ return {
 
       lint.linters_by_ft = {
         cpp = { "clangtidy" },
-        fish = { "shellcheck", "fish" },
+        fish = { "fish" },
         go = { "codespell", "golangcilint" },
         html = { "tidy" },
         javascript = { "eslint_d" },
