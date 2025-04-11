@@ -70,7 +70,7 @@ return {
             },
           },
           preview = {
-            filesize_limit = 0.2, -- MB
+            filesize_limit = 1, -- MB
           },
           vimgrep_arguments = {
             "rg",
