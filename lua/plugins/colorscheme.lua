@@ -47,10 +47,6 @@ local M = {
     end,
   },
   {
-    "norcalli/nvim-colorizer.lua",
-    cmd = "Telescope colorscheme",
-  },
-  {
     "lunarvim/synthwave84.nvim",
     cmd = "Telescope colorscheme",
   },
